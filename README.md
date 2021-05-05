@@ -1,3 +1,5 @@
+<img width="150" height="150" align="right" style="float: right; margin: 0 10px 0 0;" alt="Tnym-js" src="https://raw.githubusercontent.com/FedeIlLeone/Tnym-js/main/Tnym-js_Icon.png">  
+
 # Tnym-js
 
 Tnym-js is an automated tool to spam users on the noted website [Tellonym](https://tellonym.me/).
