@@ -25,7 +25,7 @@ class WebManager {
 		let textBox = await this.driver.findElement(By.name("tell"));
 		await textBox.clear();
 		await textBox.sendKeys(message);
-		await this.sendKeysWithEmojis(textBox, message);
+		await this.sendKeys(textBox, message);
 		await textBox.sendKeys(Key.CONTROL + Key.ENTER);
 	}
 
@@ -34,11 +34,11 @@ class WebManager {
 		return title;
 	}
 
-	async sendKeysWithEmojis(element, text) {
+	async sendKeys(element, text) {
 		const script = `
 			var elm = arguments[0], txt = arguments[1];
 			elm.value += txt;
-        	elm.dispatchEvent(new Event("change"));
+			elm.dispatchEvent(new Event("change"));
 		`;
 		await this.driver.executeScript(script, element, text);
 	}
