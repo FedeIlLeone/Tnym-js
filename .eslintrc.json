@@ -1,0 +1,87 @@
+{
+	"extends": "eslint:recommended",
+	"env": {
+		"node": true,
+		"es2020": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2020
+	},
+	"rules": { // https://eslint.org/docs/rules/
+		// Possible Errors
+		"no-await-in-loop": "warn",
+		"no-template-curly-in-string": "error",
+
+		// Best Practices
+		"accessor-pairs": "warn",
+		"array-callback-return": "error",
+		"consistent-return": "error",
+		"dot-location": [
+			"error",
+			"property"
+		],
+		"dot-notation": "error",
+		"eqeqeq": "error",
+		"no-empty-function": "error",
+		"no-floating-decimal": "error",
+		"no-invalid-this": "error",
+		"no-lone-blocks": "error",
+		"no-multi-spaces": "error",
+		"no-new": "error",
+		"no-new-func": "error",
+		"no-new-wrappers": "error",
+		"no-octal-escape": "error",
+		"no-return-assign": "error",
+		"no-return-await": "error",
+		"no-self-compare": "error",
+		"no-sequences": "error",
+		"no-throw-literal": "error",
+		"no-unmodified-loop-condition": "error",
+		"no-unused-expressions": "error",
+		"no-useless-call": "error",
+		"no-useless-concat": "error",
+		"no-useless-return": "error",
+		"no-void": "error",
+		"wrap-iife": "error",
+		"yoda": "error",
+
+		// Variables
+		"no-label-var": "error",
+		"no-undef-init": "error",
+
+		// Stylistic Issues
+		"array-bracket-newline": "error",
+		"array-bracket-spacing": "error",
+		"block-spacing": "error",
+		"brace-style": "error",
+		"capitalized-comments": ["error", "always", {
+			"ignoreConsecutiveComments": true
+		}],
+		"comma-dangle": "error",
+		"comma-spacing": "error",
+		"comma-style": "error",
+		"computed-property-spacing": "error",
+		"func-call-spacing": "error",
+		"object-curly-spacing": [
+			"error",
+			"always"
+		],
+		"quote-props": [
+			"error",
+			"as-needed"
+		],
+		"quotes": "error",
+		"semi": "error",
+		"semi-spacing": "error",
+
+		// ECMAScript 6
+		"arrow-body-style": "error",
+		"arrow-parens": "error",
+		"arrow-spacing": "error",
+		"no-useless-computed-key": "error",
+		"prefer-numeric-literals": "error",
+		"prefer-template": "error",
+		"template-curly-spacing": "error",
+		"yield-star-spacing": "error"
+	}
+}

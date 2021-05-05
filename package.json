@@ -1,0 +1,27 @@
+{
+	"name": "tnym-js",
+	"version": "1.0.0",
+	"description": "Automated tool to spam users on Tellonym",
+	"main": "index.js",
+	"scripts": {
+		"start": "node .",
+		"build": "npm install --production",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"author": "FedeIlLeone",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/FedeIlLeone/Tnym-js"
+	},
+	"bugs": "https://github.com/FedeIlLeone/Tnym-js/issues",
+	"license": "ISC",
+	"dependencies": {
+		"common-tags": "^1.8.0",
+		"minimist": "^1.2.5",
+		"selenium-webdriver": "*"
+	},
+	"devDependencies": {
+		"eslint": "^7.25.0"
+	}
+}
