@@ -1,11 +1,11 @@
-const chrome = require("selenium-webdriver/chrome");
-const { Builder, By, Key, until } = require("selenium-webdriver");
+const driver = require("./Driver");
+const { By, until, Key } = require("selenium-webdriver");
+const Constants = require("../util/Constants");
 
 class WebManager {
-	constructor(url, timeout) {
+	constructor(url, browser) {
 		this.url = url;
-		this.timeout = timeout;
-		this.driver = new Builder().forBrowser("chrome").setChromeOptions(new chrome.Options()).build();
+		this.driver = new driver(browser).getDriver();
 	}
 
 	async loadPage() {
@@ -13,16 +13,16 @@ class WebManager {
 	}
 
 	async acceptPopup() {
-		await this.driver.wait(until.elementLocated(By.xpath("/html/body/div[1]/div/div/div/div[2]/div/button[2]")));
+		await this.driver.wait(until.elementLocated(By.xpath(Constants.POPUP_XPATH)));
 
-		let popupButton = await this.driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[2]/div/button[2]"));
+		let popupButton = await this.driver.findElement(By.xpath(Constants.POPUP_XPATH));
 		popupButton.click();
 	}
 
 	async sendMessage(message) {
-		await this.driver.wait(until.elementLocated(By.name("tell"), 10000));
+		await this.driver.wait(until.elementLocated(By.name(Constants.TEXTBOX_NAME), 10000));
 
-		let textBox = await this.driver.findElement(By.name("tell"));
+		let textBox = await this.driver.findElement(By.name(Constants.TEXTBOX_NAME));
 		await textBox.clear();
 		await textBox.sendKeys(message);
 		await this.sendKeys(textBox, message);
@@ -30,7 +30,7 @@ class WebManager {
 	}
 
 	async validateMessage() {
-		let title = await this.driver.wait(until.titleIs("Tellonym"), 10000);
+		let title = await this.driver.wait(until.titleIs(Constants.SUCCESS_TITLE), 10000);
 		return title;
 	}
 

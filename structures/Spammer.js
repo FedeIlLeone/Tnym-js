@@ -1,12 +1,12 @@
 const WebManager = require("./WebManager");
-const base = "https://tellonym.me/";
+const Constants = require("../util/Constants");
 
-class SpammerAPI {
-	constructor(user, timeout) {
+class Spammer {
+	constructor(user, browser) {
 		this.popup = false;
 		this.user = user;
-		this.timeout = timeout;
-		this.web = new WebManager(base + this.user, this.timeout);
+		this.browser = browser;
+		this.web = new WebManager(Constants.BASE_URL + this.user, this.browser);
 	}
 
 	async send(message) {
@@ -32,4 +32,4 @@ class SpammerAPI {
 	}
 }
 
-module.exports = SpammerAPI;
+module.exports = Spammer;
