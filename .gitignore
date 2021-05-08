@@ -1,6 +1,5 @@
 .vscode/
 *.log
-config.yml
+test_inputfile.txt
 node_modules
 Desktop.ini
-test_inputfile.txt

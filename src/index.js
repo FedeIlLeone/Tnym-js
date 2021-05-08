@@ -127,6 +127,7 @@ async function main() {
 	}
 
 	console.log("\x1b[32m%s\x1b[0m", `Spam completed! Sent all messages to ${user}.`);
+	spammer.close();
 }
 
 validateArgs(argv).then((valid) => {

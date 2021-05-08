@@ -26,4 +26,4 @@ Usage: `node . [-h] [-i INPUT] [-t TIMES] [-r RETRIES] [-b BROWSER] user`
 | `-h or -help` | bool | Shows an help message regarding the tool. |
 | `-t or -times` | integer | Set the number of times to loop the input file. Defaults to 1 time. |
 | `-r or -retries` | integer | Set the number of times to retry the operation of sending the message if fails. Defaults to 10 retries. |
-| `-b or -browser` | integer | Set the browser to use (chrome, firefox, edge). Defaults to chrome. |
+| `-b or -browser` | string | Set the browser to use (chrome, firefox, edge). Defaults to chrome. |
