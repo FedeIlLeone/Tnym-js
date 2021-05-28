@@ -1,5 +1,11 @@
 .vscode/
+
+node_modules/
+build/
+build_dist/
+dist/
+semantic/
+
 *.log
 test_inputfile.txt
-node_modules
 Desktop.ini

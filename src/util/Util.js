@@ -1,3 +1,4 @@
+const { execSync } = require("child_process");
 const Constants = require("../util/Constants");
 
 module.exports = {
@@ -5,9 +6,14 @@ module.exports = {
 		return new Promise((resolve) => setTimeout(resolve, ms));
 	},
 
-	checkBrowserCompatibility(browser) {
-		let bsr = browser.toLowerCase();
-
-		return Constants.BROWSER_COMPATIBILITY.includes(bsr);
+	checkWebDriverExistence(browser) {
+		try {
+			execSync(`${Constants.BROWSER_WEBDRIVERS[browser]} --version`, {
+				stdio: "inherit"
+			});
+			return true;
+		} catch {
+			return false;
+		}
 	}
 };

@@ -1,11 +1,11 @@
-const driver = require("./Driver");
+const Driver = require("./Driver");
 const { By, until, Key } = require("selenium-webdriver");
 const Constants = require("../util/Constants");
 
 class WebManager {
-	constructor(url, browser) {
+	constructor(url, browser, headless) {
 		this.url = url;
-		this.driver = new driver(browser).getDriver();
+		this.driver = new Driver(browser, headless).getDriver();
 	}
 
 	async loadPage() {

@@ -2,15 +2,23 @@ const WebManager = require("./WebManager");
 const Constants = require("../util/Constants");
 
 class Spammer {
-	constructor(user, browser) {
+	constructor(user, browser, headless) {
 		this.popup = false;
 		this.user = user;
-		this.browser = browser;
-		this.web = new WebManager(Constants.BASE_URL + this.user, this.browser);
+		this.web = new WebManager(Constants.BASE_URL + this.user, browser, headless);
+	}
+
+	async load() {
+		try {
+			await this.web.loadPage();
+			return true;
+		} catch {
+			return false;
+		}
 	}
 
 	async send(message) {
-		await this.web.loadPage();
+		await this.load();
 
 		if (!this.popup) {
 			await this.web.acceptPopup();
@@ -28,7 +36,12 @@ class Spammer {
 	}
 
 	async close() {
-		await this.web.driver.quit();
+		try {
+			await this.web.driver.quit();
+			// eslint-disable-next-line no-empty
+		} catch {}
+
+		this.web.driver = null;
 	}
 }
 

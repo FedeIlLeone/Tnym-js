@@ -1,11 +1,16 @@
 {
 	"name": "tnym-js",
-	"version": "1.1.1",
+	"version": "2.0.0",
 	"description": "Automated tool to spam users on Tellonym",
-	"main": "src/index.js",
+	"main": "build/main.js",
 	"scripts": {
-		"start": "node .",
-		"build": "npm install --production",
+		"start": "electron .",
+		"build": "(if exist build rmdir /s /q build) && mkdir build && npm run install_externals && webpack --config webpack.main.js --mode production && webpack --config webpack.renderer.js --mode production && npm run build_dist",
+		"build_dist": "(if exist build_dist rmdir /s /q build_dist) && mkdir build_dist && xcopy /e /y /f build build_dist\\build\\ && copy package.json build_dist",
+		"dist": "npm run build && electron-packager ./build_dist Tnym-js --out dist/ --overwrite --prune=true --arch \"x64, ia32\" --platform=win32 --icon assets/icon.ico --ignore \"src|semantic\"",
+		"install_externals": "npm i --prefix ./build bufferutil utf-8-validate",
+		"dev": "(gulp --gulpfile ./semantic/gulpfile.js build) && npm run install_externals && npm run watch",
+		"watch": "concurrently --kill-others \"webpack --config webpack.main.js --mode development --watch\" \"webpack --config webpack.renderer.js --mode development --watch\"",
 		"lint": "eslint src",
 		"lint:fix": "eslint src --fix"
 	},
@@ -17,11 +22,23 @@
 	"bugs": "https://github.com/FedeIlLeone/Tnym-js/issues",
 	"license": "ISC",
 	"dependencies": {
-		"common-tags": "^1.8.0",
-		"minimist": "^1.2.5",
+		"fomantic-ui": "^2.8.7",
+		"jquery": "^3.6.0",
 		"selenium-webdriver": "*"
 	},
 	"devDependencies": {
-		"eslint": "^7.25.0"
+		"concurrently": "^6.2.0",
+		"css-loader": "^5.2.6",
+		"electron": "^13.0.1",
+		"electron-packager": "^15.2.0",
+		"eslint": "^7.25.0",
+		"file-loader": "^6.2.0",
+		"gulp": "^4.0.2",
+		"html-webpack-plugin": "^5.3.1",
+		"node-sass": "^6.0.0",
+		"sass-loader": "^11.1.1",
+		"style-loader": "^2.0.0",
+		"webpack": "^5.37.1",
+		"webpack-cli": "^4.7.0"
 	}
 }
