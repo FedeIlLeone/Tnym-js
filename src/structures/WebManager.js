@@ -1,5 +1,5 @@
-const Driver = require("./Driver");
 const { By, until, Key } = require("selenium-webdriver");
+const Driver = require("./Driver");
 const Constants = require("../util/Constants");
 
 class WebManager {
