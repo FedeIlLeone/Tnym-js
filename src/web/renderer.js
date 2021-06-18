@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
-/* eslint-disable no-undef */
-const { dialog } = require("electron").remote;
+/* eslint-env browser, jquery */
+const { dialog } = require("@electron/remote");
 const { readFileSync } = require("fs");
 const Spammer = require("../structures/Spammer");
 const Constants = require("../util/Constants");
@@ -10,6 +10,7 @@ const loadingDimmer = document.getElementById("loading-dimmer");
 const closeButton = document.getElementById("close-button");
 const userInput = document.getElementById("user-input");
 const fileInput = document.getElementById("file-input");
+const repeatsInput = document.getElementById("repeats-input");
 const fileAttachButton = document.getElementById("fileattach-button");
 const browserDropdown = document.getElementById("browser-dropdown");
 const headlessCheckbox = document.getElementById("headless-checkbox");
@@ -22,14 +23,12 @@ require("../../semantic/dist/semantic.min.css");
 let started = false;
 let spammer;
 
-function validateArgs(user, file, browser) {
-	let valid = (user === "" || !file || browser === "") ? false : true;
-
-	$(userInput).parent().removeClass(user === "" ? "ui fluid input" : "ui fluid input error").addClass(user === "" ? "ui fluid input error" : "ui fluid input");
-	$(fileInput).parent().removeClass(!file ? "ui fluid action input" : "ui fluid action input error").addClass(!file ? "ui fluid action input error" : "ui fluid action input");
-	$(browserDropdown).removeClass(browser === "" ? "ui inverted fluid selection dropdown" : "ui fluid selection dropdown error").addClass(browser === "" ? "ui fluid selection dropdown error" : "ui inverted fluid selection dropdown");
-
-	return valid;
+function showMessageBox(title, type, message) {
+	dialog.showMessageBox(null, {
+		message: message,
+		type: type,
+		title: title
+	});
 }
 
 function loading(state, msg) {
@@ -64,6 +63,18 @@ $("input:file", ".ui.action.input").on("change", function (e) {
 	$("input:text", $(e.target).parent()).val(file ? file.name : "");
 });
 
+repeatsInput.oninput = function () {
+	let number = repeatsInput.value;
+	if (number) {
+		repeatsInput.value = Math.floor(number);
+		if (number < 1 || number > 100) {
+			repeatsInput.value = Math.min(Math.max(parseInt(number), 1), 100);
+		}
+	} else {
+		repeatsInput.value = "";
+	}
+};
+
 $(browserDropdown).dropdown({
 	clearable: false
 });
@@ -77,21 +88,19 @@ startButton.onclick = async () => {
 
 	let user = userInput.value;
 	let file = fileInput.files[0];
+	let repeats = repeatsInput.valueAsNumber || 1;
 	let browser = $(browserDropdown).dropdown("get value");
 	let headless = $(headlessCheckbox).checkbox("is checked");
 
-	let validate = validateArgs(user, file, browser);
+	let validate = (user === "" || !file || browser === "") ? false : true;
 	if (!validate) {
+		showMessageBox("Warning", "warning", "Couldn't start because not all boxes are filled");
 		return;
 	}
 
 	let driverExists = Util.checkWebDriverExistence(browser);
 	if (!driverExists) {
-		dialog.showMessageBox(null, {
-			message: `Couldn't find and run ${browser}'s WebDriver`,
-			type: "warning",
-			title: "WebDriver Warning"
-		});
+		showMessageBox("Warning", "warning", `Couldn't find and run ${browser}'s WebDriver`);
 		return;
 	}
 
@@ -114,34 +123,36 @@ startButton.onclick = async () => {
 	}
 	loading(false);
 
-	for (const message of messages) {
-		if (message.length < 4 || message.length > 15000) {
-			continue;
-		}
-
-		if (!started) break;
-
-		for (let tries = 0; tries < Constants.RETRIES; tries++) {
-			let result;
-			try {
-				result = await spammer.send(message);
-			} catch {
-				conclude();
-				return;
+	for (let i = 0; i < repeats; i++) {
+		for (const message of messages) {
+			if (message.length < 4 || message.length > 15000) {
+				continue;
 			}
 
 			if (!started) break;
 
-			if (result === true) {
-				break;
-			} else if (result === false) {
-				if (tries > Constants.RETRIES) {
+			for (let tries = 0; tries < Constants.RETRIES; tries++) {
+				let result;
+				try {
+					result = await spammer.send(message);
+				} catch {
 					conclude();
 					return;
 				}
-			}
 
-			await Util.delay(1000);
+				if (!started) break;
+
+				if (result === true) {
+					break;
+				} else if (result === false) {
+					if (tries > Constants.RETRIES) {
+						conclude();
+						return;
+					}
+				}
+
+				await Util.delay(1000);
+			}
 		}
 	}
 

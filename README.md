@@ -19,7 +19,7 @@ The only requirement to use the tool is to have [Chrome](https://chromedriver.ch
 
 If you would like to build the project by yourself, there are scripts out of the box.
 
-**Build Distribution:**
+**Build for Distribution:**
 ```shell
 $ npm run build
 ```

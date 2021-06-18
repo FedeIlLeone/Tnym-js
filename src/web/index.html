@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src * 'unsafe-inline'; font-src * data:">
-		
+
 		<style>
 			.ui.action.input input[type="file"] {
 				display: none;
@@ -12,7 +12,7 @@
 	</head>
 
 	<body style="background-color:#1B1C1D; user-select: none;">
-		<div class="ui inverted grid">
+		<div class="ui grid">
 			<div class="ui dimmer" id="loading-dimmer" style="-webkit-app-region: drag;">
 				<div class="ui inverted text loader">Template</div>
 			</div>
@@ -20,20 +20,20 @@
 			<div class="sixteen wide column">
 				<div class="ui inverted segment">
 					<form class="ui inverted equal width form" id="main-form">
-						<div class="ui inverted grid" style="-webkit-app-region: drag;">
+						<div class="ui grid" style="-webkit-app-region: drag;">
 							<div class="left floated five wide column" style="-webkit-app-region: drag;">
 								<h1 class="ui inverted large header">Tnym-js</h1>
 							</div>
 							<div class="right floated five wide column" style="-webkit-app-region: drag;">
-								<button class="mini circular ui inverted right floated icon button" id="close-button" style="-webkit-app-region: no-drag;">
+								<div class="mini circular ui inverted right floated icon button" id="close-button" style="-webkit-app-region: no-drag;">
 									<i class="close icon"></i>
-								</button>
+								</div>
 							</div>
 						</div>
 
 						<h4 class="ui inverted dividing header">Main</h4>
-						<div class="ui fluid input" style="user-select: auto;">
-							<input id="user-input" type="text" placeholder="User">
+						<div class="ui fluid input">
+							<input id="user-input" type="text" spellcheck="false" placeholder="User">
 						</div>
 						<p></p>
 						<div class="ui fluid action input">
@@ -43,9 +43,13 @@
 								<i class="attach icon"></i>
 							</div>
 						</div>
+						<p></p>
+						<div class="ui fluid input">
+							<input id="repeats-input" type="number" min="1" max="100" placeholder="File repeats (def. 1)">
+						</div>
 
 						<h4 class="ui inverted dividing header">WebDriver</h4>
-						<div class="ui inverted fluid selection dropdown" id="browser-dropdown">
+						<div class="ui fluid inverted selection dropdown" id="browser-dropdown">
 							<input type="hidden" name="choices">
 							<div class="default text">Select browser</div>
 							<i class="dropdown icon"></i>
@@ -62,17 +66,10 @@
 						</div>
 
 						<h4 class="ui inverted dividing header">Controls</h4>
-						<div class="fluid ui inverted vertical animated black button" id="start-button">
+						<div class="ui fluid inverted vertical animated black button" id="start-button">
 							<div class="hidden content">Start</div>
 							<div class="visible content">
 								<i class="play icon color green" id="start-icon"></i>
-							</div>
-						</div>
-						<p></p>
-						<div class="fluid ui disabled inverted vertical animated black button" id="console-button">
-							<div class="hidden content">Console</div>
-							<div class="visible content">
-								<i class="terminal icon color gray" id="console-icon"></i>
 							</div>
 						</div>
 					</form>
