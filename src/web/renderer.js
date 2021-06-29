@@ -2,6 +2,8 @@
 /* eslint-env browser, jquery */
 const { dialog } = require("@electron/remote");
 const { readFileSync } = require("fs");
+const os = require("os");
+const path = require("path");
 const Spammer = require("../structures/Spammer");
 const Constants = require("../util/Constants");
 const Util = require("../util/Util");
@@ -46,6 +48,20 @@ function conclude() {
 	spammer.close();
 	startStop(false);
 	loading(false);
+}
+
+function driverSetPath(browser) {
+	let osArch = os.arch();
+	let driverFileName = Util.getDriverFileName(browser);
+
+	if (osArch === "arm" || osArch === "ia32") osArch = "x32";
+	if (osArch === "arm64") osArch = "x64";
+
+	let driverPath = path.join(process.resourcesPath, "drivers", driverFileName, osArch);
+
+	process.env.path += `;${driverPath}`;
+
+	showMessageBox("Info", "info", "WebDriver added to PATH. Start again and it should work");
 }
 
 closeButton.onclick = () => {
@@ -100,7 +116,17 @@ startButton.onclick = async () => {
 
 	let driverExists = Util.checkWebDriverExistence(browser);
 	if (!driverExists) {
-		showMessageBox("Warning", "warning", `Couldn't find and run ${browser}'s WebDriver`);
+		dialog.showMessageBox(null, {
+			message: `Couldn't find and run ${browser}'s WebDriver. Would you like to use an already downloaded driver?`,
+			type: "question",
+			buttons: ["Yes", "No"],
+			title: "WebDriver Missing",
+			detail: "Make sure you have the selected browser with the latest version installed on your PC"
+		}).then(async (res) => {
+			if (res.response === 0) {
+				driverSetPath(browser);
+			}
+		});
 		return;
 	}
 

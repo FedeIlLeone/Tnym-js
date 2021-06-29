@@ -1,6 +1,8 @@
 const { app, BrowserWindow } = require("electron");
 require("@electron/remote/main").initialize();
 
+const DEBUG = false;
+
 function createWindow() {
 	const win = new BrowserWindow({
 		width: 400,
@@ -21,6 +23,12 @@ function createWindow() {
 	win.setTitle("Tnym-js");
 	win.setMenu(null);
 	win.loadFile("./build/web/index.html");
+
+	if (DEBUG) {
+		win.webContents.openDevTools({
+			mode: "undocked"
+		});
+	}
 }
 
 app.whenReady().then(() => {

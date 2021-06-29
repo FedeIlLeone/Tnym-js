@@ -1,13 +1,13 @@
 {
 	"name": "tnym-js",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"description": "Automated tool to spam users on Tellonym",
 	"main": "build/main.js",
 	"scripts": {
 		"start": "electron .",
 		"build": "(if exist build rmdir /s /q build) && mkdir build && npm run install_externals && webpack --config webpack.main.js --mode production && webpack --config webpack.renderer.js --mode production && npm run build_dist",
 		"build_dist": "(if exist build_dist rmdir /s /q build_dist) && mkdir build_dist && xcopy /e /y /f build build_dist\\build\\ && copy package.json build_dist",
-		"dist": "npm run build && electron-packager ./build_dist Tnym-js --out dist/ --overwrite --asar --arch \"x64, ia32\" --platform=win32 --icon assets/icon.ico",
+		"dist": "npm run build && electron-packager ./build_dist Tnym-js --out dist/ --overwrite --extra-resource=\"drivers\" --asar --arch \"x64, ia32\" --platform=win32 --icon assets/icon.ico",
 		"install_externals": "npm i --prefix ./build bufferutil utf-8-validate",
 		"dev": "(gulp --gulpfile ./semantic/gulpfile.js build) && npm run install_externals && npm run watch",
 		"watch": "concurrently --kill-others \"webpack --config webpack.main.js --mode development --watch\" \"webpack --config webpack.renderer.js --mode development --watch\"",
@@ -39,7 +39,7 @@
 		"node-sass": "^6.0.1",
 		"sass-loader": "^12.1.0",
 		"style-loader": "^3.0.0",
-		"webpack": "^5.40.0",
+		"webpack": "^5.41.0",
 		"webpack-cli": "^4.7.2"
 	}
 }

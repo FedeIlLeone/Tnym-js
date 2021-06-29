@@ -4,6 +4,14 @@
 
 Tnym-js is an automated tool to spam users on the noted website [Tellonym](https://tellonym.me/).
 
+## Features
+
+- A very fast spammer.
+- Easy interface to use.
+- Nothing external needed to install.
+
+**A known and big problem is how large the program is because of Electron. If you are a dev and know how to fix this, please feel free to do a PR.**
+
 ## Downloads
 
 - Windows | [Portable x64](https://github.com/FedeIlLeone/Tnym-js/releases/latest/download/Tnym-js-x64.zip)
@@ -13,11 +21,11 @@ Tnym-js is an automated tool to spam users on the noted website [Tellonym](https
 
 The project is made in JavaScript and Electron for the GUI.
 
-The only requirement to use the tool is to have [Chrome](https://chromedriver.chromium.org/), [Firefox](https://github.com/mozilla/geckodriver/releases/) or [Microsoft Edge](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) as the WebDriver. **Remember to add the driver in $PATH.**
+The only requirement to use the tool is to have Chrome, Firefox or Microsoft Edge on your PC. Having the latest versions of the selected browser is highly recommended. Also, WebDrivers are already packed with the tool, there's no need to download them.
 
 ## Building and Scripts
 
-If you would like to build the project by yourself, there are scripts out of the box.
+If you would like to build the project by yourself, there are scripts ready out of the box.
 
 **Build for Distribution:**
 ```shell
