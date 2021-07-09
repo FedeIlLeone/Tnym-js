@@ -20,7 +20,7 @@
 		"url": "https://github.com/FedeIlLeone/Tnym-js"
 	},
 	"bugs": "https://github.com/FedeIlLeone/Tnym-js/issues",
-	"license": "ISC",
+	"license": "GPL-3.0",
 	"dependencies": {
 		"fomantic-ui": "^2.8.8",
 		"jquery": "^3.6.0",
