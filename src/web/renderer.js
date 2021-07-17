@@ -4,6 +4,8 @@ const { dialog } = require("@electron/remote");
 const { readFileSync } = require("fs");
 const os = require("os");
 const path = require("path");
+const fetch = require("node-fetch");
+const settings = require("electron-settings");
 const Spammer = require("../structures/Spammer");
 const Constants = require("../util/Constants");
 const Util = require("../util/Util");
@@ -15,18 +17,19 @@ const fileInput = document.getElementById("file-input");
 const repeatsInput = document.getElementById("repeats-input");
 const fileAttachButton = document.getElementById("fileattach-button");
 const browserDropdown = document.getElementById("browser-dropdown");
-const headlessCheckbox = document.getElementById("headless-checkbox");
+const latestTokenCheckbox = document.getElementById("latesttoken-checkbox");
 const startButton = document.getElementById("start-button");
 const startIcon = document.getElementById("start-icon");
+const versionText = document.getElementById("version-text");
 
 require("../../semantic/dist/semantic.min.js");
 require("../../semantic/dist/semantic.min.css");
 
 let started = false;
-let spammer;
+let spammer = null;
 
-function showMessageBox(title, type, message) {
-	dialog.showMessageBox(null, {
+async function showMessageBox(title, type, message) {
+	await dialog.showMessageBox(null, {
 		message: message,
 		type: type,
 		title: title
@@ -60,11 +63,30 @@ function driverSetPath(browser) {
 	let driverPath = path.join(process.resourcesPath, "drivers", driverFileName, osArch);
 
 	process.env.path += `;${driverPath}`;
+}
 
-	showMessageBox("Info", "info", "WebDriver added to PATH. Start again and it should work");
+async function checkUpdates() {
+	// eslint-disable-next-line no-undef
+	let currentVersion = _VERSION_.replaceAll(".", "");
+
+	let response = null;
+	try {
+		response = await fetch(Constants.UPDATE_URL).then((res) => res.json());
+	} catch {
+		return [null];
+	}
+
+	let latestVersion = response.version.replaceAll(".", "");
+
+	if (currentVersion >= latestVersion) {
+		return [true];
+	}
+
+	return [false, response.version];
 }
 
 closeButton.onclick = () => {
+	if (spammer) spammer.close();
 	window.close();
 };
 
@@ -95,6 +117,11 @@ $(browserDropdown).dropdown({
 	clearable: false
 });
 
+$(".activating.element").popup();
+settings.has("token").then((res) => {
+	if (res) $(latestTokenCheckbox).checkbox("set enabled");
+});
+
 startButton.onclick = async () => {
 	if (started) {
 		started = false;
@@ -106,7 +133,7 @@ startButton.onclick = async () => {
 	let file = fileInput.files[0];
 	let repeats = repeatsInput.valueAsNumber || 1;
 	let browser = $(browserDropdown).dropdown("get value");
-	let headless = $(headlessCheckbox).checkbox("is checked");
+	let useLatestToken = $(latestTokenCheckbox).checkbox("is checked");
 
 	let validate = (user === "" || !file || browser === "") ? false : true;
 	if (!validate) {
@@ -116,22 +143,8 @@ startButton.onclick = async () => {
 
 	let driverExists = Util.checkWebDriverExistence(browser);
 	if (!driverExists) {
-		dialog.showMessageBox(null, {
-			message: `Couldn't find and run ${browser}'s WebDriver. Would you like to use an already downloaded driver?`,
-			type: "question",
-			buttons: ["Yes", "No"],
-			title: "WebDriver Missing",
-			detail: "Make sure you have the selected browser with the latest version installed on your PC"
-		}).then(async (res) => {
-			if (res.response === 0) {
-				driverSetPath(browser);
-			}
-		});
-		return;
+		driverSetPath(browser);
 	}
-
-	started = true;
-	startStop(true);
 
 	let inputFile = "";
 	let messages = [];
@@ -140,12 +153,25 @@ startButton.onclick = async () => {
 	});
 	messages = inputFile.split(/\r?\n/);
 
-	spammer = new Spammer(user, browser, headless);
-	loading(true, "Opening Browser and Tellonym...");
-	let load = await spammer.load();
-	if (!load) {
+	spammer = new Spammer(user, browser, useLatestToken);
+
+	loading(true, "Checking user existence...");
+	let userId = await spammer.getUserId(user);
+	if (!userId) {
+		showMessageBox("Warning", "warning", `${user} doesn't exist on Tellonym`);
+		return;
+	}
+
+	started = true;
+	startStop(true);
+
+	loading(true, "Getting token...<br/><br/>(complete captcha manually if present!)");
+	let init = await spammer.init();
+	if (!init) {
 		conclude();
 		return;
+	} else {
+		$(latestTokenCheckbox).checkbox("set enabled");
 	}
 	loading(false);
 
@@ -158,9 +184,9 @@ startButton.onclick = async () => {
 			if (!started) break;
 
 			for (let tries = 0; tries < Constants.RETRIES; tries++) {
-				let result;
+				let valid = null;
 				try {
-					result = await spammer.send(message);
+					valid = await spammer.send(message, userId);
 				} catch {
 					conclude();
 					return;
@@ -168,16 +194,16 @@ startButton.onclick = async () => {
 
 				if (!started) break;
 
-				if (result === true) {
+				await Util.delay(1000);
+
+				if (valid === true) {
 					break;
-				} else if (result === false) {
+				} else if (valid === false) {
 					if (tries > Constants.RETRIES) {
 						conclude();
 						return;
 					}
 				}
-
-				await Util.delay(1000);
 			}
 		}
 	}
@@ -185,3 +211,18 @@ startButton.onclick = async () => {
 	await Util.delay(1000);
 	conclude();
 };
+
+checkUpdates().then(([isLatest, latestVersion]) => {
+	let updCheckFail = isLatest === null;
+
+	// eslint-disable-next-line no-undef
+	versionText.innerHTML = `<span class="ui inverted ${isLatest ? "success" : (updCheckFail ? "warning" : "error")} text">v${_VERSION_}</span>`;
+
+	let pressed = false;
+	versionText.onclick = async () => {
+		if (pressed) return;
+		pressed = true;
+		await showMessageBox("Update Check", updCheckFail ? "warning" : "info", isLatest ? "Up to date!" : (updCheckFail ? "Update check failed." : `Update v${latestVersion} is available!`));
+		pressed = false;
+	};
+});

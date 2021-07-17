@@ -1,46 +1,73 @@
 const { By, until, Key } = require("selenium-webdriver");
+const settings = require("electron-settings");
 const Driver = require("./Driver");
 const Constants = require("../util/Constants");
+const Util = require("../util/Util");
 
 class WebManager {
-	constructor(url, browser, headless) {
-		this.url = url;
-		this.driver = new Driver(browser, headless).getDriver();
+	constructor(browser) {
+		this.browser = browser;
+		this.driver = null;
 	}
 
-	async loadPage() {
-		await this.driver.get(this.url);
+	async registerAccount() {
+		try {
+			this.driver = new Driver(this.browser).getDriver();
+			await this.driver.get(Constants.BASE_URL + Constants.REGISTER_FIRST_URL);
+		} catch {
+			return null;
+		}
+
+		let randomString = Util.genString(20);
+
+		/*
+			Setting `noniabvendorconsent` and `_cmpRepromptHash` to an equal value, bypasses privacy agreement
+			and `reduxPersist:user` is for a faster account registration, which bypasses all inputs
+		*/
+		await this.driver.executeScript(`
+			window.localStorage.setItem("noniabvendorconsent", ".");
+			window.localStorage.setItem("_cmpRepromptHash", ".");
+			window.localStorage.setItem("reduxPersist:user", "{\\"email\\":\\"${randomString}@gmail.com\\",\\"password\\":\\"${randomString}\\",\\"username\\":\\"${randomString}\\"}");
+		`);
+
+		await this.driver.get(Constants.BASE_URL + Constants.REGISTER_SECOND_URL);
+
+		let emailInput = await this.driver.wait(until.elementLocated(By.name(Constants.EMAIL_INPUT_NAME), Constants.TIMEOUT));
+		await emailInput.sendKeys(Key.CONTROL + Key.ENTER);
+
+		await this.driver.wait(until.elementLocated(By.xpath(Constants.SHARE_LINK_XPATH)));
+
+		let accessToken = await this.gatherNewToken();
+
+		return accessToken;
 	}
 
-	async acceptPopup() {
-		await this.driver.wait(until.elementLocated(By.xpath(Constants.POPUP_XPATH)));
+	async gatherNewToken() {
+		/*
+			Gets first the profile Id from `reduxPersist:profile` and then get the accessToken from `reduxPersist:__app__`
+		*/
+		let token = "";
+		let [appData, profileData] = await this.driver.executeScript(`
+			return [window.localStorage.getItem("reduxPersist:__app__"), window.localStorage.getItem("reduxPersist:profile")]
+		`);
 
-		let popupButton = await this.driver.findElement(By.xpath(Constants.POPUP_XPATH));
-		popupButton.click();
+		if (appData) appData = JSON.parse(appData);
+		if (profileData) profileData = JSON.parse(profileData);
+
+		if (appData.accounts.length !== 0) {
+			if (appData.accounts[profileData.profile.id]) {
+				token = appData.accounts[profileData.profile.id].accessToken;
+			}
+		}
+
+		await settings.set("token", token);
+
+		return token;
 	}
 
-	async sendMessage(message) {
-		await this.driver.wait(until.elementLocated(By.name(Constants.TEXTBOX_NAME), 10000));
-
-		let textBox = await this.driver.findElement(By.name(Constants.TEXTBOX_NAME));
-		await textBox.clear();
-		await textBox.sendKeys(message);
-		await this.sendKeys(textBox, message);
-		await textBox.sendKeys(Key.CONTROL + Key.ENTER);
-	}
-
-	async validateMessage() {
-		let title = await this.driver.wait(until.titleIs(Constants.SUCCESS_TITLE), 10000);
-		return title;
-	}
-
-	async sendKeys(element, text) {
-		const script = `
-			var elm = arguments[0], txt = arguments[1];
-			elm.value += txt;
-			elm.dispatchEvent(new Event("change"));
-		`;
-		await this.driver.executeScript(script, element, text);
+	async getLatestToken() {
+		let token = await settings.get("token");
+		return token;
 	}
 }
 

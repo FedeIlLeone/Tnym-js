@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src * 'unsafe-inline'; font-src * data:">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src * 'unsafe-inline'; font-src * data:; connect-src *">
 
 		<style>
 			.ui.action.input input[type="file"] {
@@ -60,9 +60,9 @@
 							</div>
 						</div>
 						<p></p>
-						<div class="ui inverted checked checkbox" id="headless-checkbox">
-							<input type="checkbox" checked="">
-							<label>Headless</label>
+						<div class="ui inverted checked checkbox" id="latesttoken-checkbox" data-tooltip="Use your latest token created if available" data-position="bottom left" data-variation="small">
+							<input type="checkbox" disabled checked>
+							<label>Use latest token</label>
 						</div>
 
 						<h4 class="ui inverted dividing header">Controls</h4>
@@ -76,5 +76,8 @@
 				</div>
 			</div>
 		</div>
+
+		<p style="color:white; font-weight: bold; float: left; margin-left: 15px;">© 2021 FedeIlLeone</p>
+		<p id="version-text" style="font-weight: bold; float: right; margin-right: 15px;"></p>
 	</body>
 </html>

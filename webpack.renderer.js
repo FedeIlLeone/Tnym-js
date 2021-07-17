@@ -1,5 +1,10 @@
+const fs = require("fs");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const version = JSON.parse(fs.readFileSync("./package.json", {
+	encoding: "utf8"
+})).version;
 
 module.exports = (_, argv) => {
 	const isProd = (argv.mode === "production");
@@ -8,6 +13,7 @@ module.exports = (_, argv) => {
 		template: "./src/web/index.html",
 		filename: path.resolve(public, "index.html")
 	});
+
 	const config = {
 		target: "electron-renderer",
 		node: {
@@ -79,8 +85,13 @@ module.exports = (_, argv) => {
 				}
 			]
 		},
-		plugins: [htmlPlugin]
+		plugins: [
+			htmlPlugin,
+			new webpack.DefinePlugin({
+				_VERSION_: JSON.stringify(version)
+			})
+		]
 	};
-	
+
 	return config;
 };

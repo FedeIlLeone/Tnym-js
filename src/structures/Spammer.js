@@ -1,43 +1,97 @@
+const fetch = require("node-fetch");
 const WebManager = require("./WebManager");
 const Constants = require("../util/Constants");
 
 class Spammer {
-	constructor(user, browser, headless) {
-		this.popup = false;
+	constructor(user, browser, useLatestToken) {
 		this.user = user;
-		this.web = new WebManager(Constants.BASE_URL + this.user, browser, headless);
+		this.web = new WebManager(browser);
+		this.token = "";
+		this.useLatestToken = useLatestToken;
 	}
 
-	async load() {
-		try {
-			await this.web.loadPage();
-			return true;
-		} catch {
-			return false;
+	async init() {
+		if (this.useLatestToken) {
+			let token = await this.web.getLatestToken();
+
+			if (token) {
+				this.token = token;
+			} else {
+				try {
+					this.token = await this.web.registerAccount();
+					// eslint-disable-next-line no-empty
+				} catch {}
+				this.close();
+			}
+		} else {
+			try {
+				this.token = await this.web.registerAccount();
+				// eslint-disable-next-line no-empty
+			} catch {}
+			this.close();
 		}
+
+		return this.token;
 	}
 
-	async send(message) {
-		await this.load();
+	async send(message, userId) {
+		let valid = await this.sendRequest(message, userId);
+		return valid;
+	}
 
-		if (!this.popup) {
-			await this.web.acceptPopup();
-			this.popup = true;
-		}
+	async sendRequest(message, userId) {
+		const data = {
+			headers: {
+				authorization: `Bearer ${this.token}`,
+				"content-type": "application/json;charset=utf-8"
+			},
+			body: `{"isSenderRevealed":false,"tell":"${message}","userId":${userId},"limit":25}`,
+			method: "POST"
+		};
 
-		await this.web.sendMessage(message);
-
+		/*
+			Gets null response if request is successful
+		*/
+		let response = null;
 		try {
-			let valid = await this.web.validateMessage();
-			return valid;
+			response = await fetch(Constants.API_BASE_URL + Constants.API_SEND_URL, data).then((res) => res.json());
 		} catch {
-			return false;
+			if (response === null) return true;
 		}
+
+		return false;
+	}
+
+	async getUserId(username) {
+		let userId = null;
+
+		let args = {
+			searchString: username,
+			limit: 50
+		};
+
+		let url = new URL(Constants.API_BASE_URL + Constants.API_SEARCH_URL);
+		url.search = new URLSearchParams(args).toString();
+
+		let response = null;
+		try {
+			response = await fetch(url).then((res) => res.json());
+		} catch {
+			return userId;
+		}
+
+		if (response.results) {
+			response.results.forEach((search) => {
+				if (search.username.toLowerCase() === username.toLowerCase()) userId = search.id;
+			});
+		}
+
+		return userId;
 	}
 
 	async close() {
 		try {
-			await this.web.driver.quit();
+			if (this.web.driver) await this.web.driver.quit();
 			// eslint-disable-next-line no-empty
 		} catch {}
 

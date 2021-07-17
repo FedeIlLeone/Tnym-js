@@ -7,6 +7,7 @@ Tnym-js is an automated tool to spam users on the noted website [Tellonym](https
 ## Features
 
 - A very fast spammer.
+- Captcha bypass on message sending.
 - Easy interface to use.
 - Nothing external needed to install.
 

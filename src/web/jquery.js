@@ -1,2 +1,2 @@
-/* eslint-disable no-undef */
+/* eslint-env browser, jquery */
 window.jQuery = window.$ = require("jquery");

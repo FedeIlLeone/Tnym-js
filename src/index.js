@@ -6,7 +6,7 @@ const DEBUG = false;
 function createWindow() {
 	const win = new BrowserWindow({
 		width: 400,
-		height: 510,
+		height: 520,
 		center: true,
 		resizable: false,
 		maximizable: false,
