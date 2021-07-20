@@ -12,8 +12,7 @@ const CONSTANTS = {
 	UPDATE_URL: "https://raw.githubusercontent.com/FedeIlLeone/Tnym-js/master/package.json",
 	BROWSER_WEBDRIVERS: {
 		chrome: "chromedriver",
-		firefox: "geckodriver",
-		edge: "msedgedriver"
+		firefox: "geckodriver"
 	},
 
 	RETRIES: 25,

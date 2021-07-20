@@ -90,6 +90,10 @@ closeButton.onclick = () => {
 	window.close();
 };
 
+settings.get("user").then((res) => {
+	if (res) userInput.value = res;
+});
+
 $("input:text").click(function () {
 	$(this).parent().find("input:file").click();
 });
@@ -161,6 +165,7 @@ startButton.onclick = async () => {
 		showMessageBox("Warning", "warning", `${user} doesn't exist on Tellonym`);
 		return;
 	}
+	await settings.set("user", user);
 
 	started = true;
 	startStop(true);

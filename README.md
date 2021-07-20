@@ -22,7 +22,7 @@ Tnym-js is an automated tool to spam users on the noted website [Tellonym](https
 
 The project is made in JavaScript and Electron for the GUI.
 
-The only requirement to use the tool is to have Chrome, Firefox or Microsoft Edge on your PC. Having the latest versions of the selected browser is highly recommended. Also, WebDrivers are already packed with the tool, there's no need to download them.
+The only requirement to use the tool is to have Chrome or Firefox on your PC. Having the latest versions of the selected browser is highly recommended. Also, WebDrivers are already packed with the tool, there's no need to download them.
 
 ## Building and Scripts
 
