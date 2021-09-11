@@ -1,8 +1,8 @@
 const { By, until, Key } = require("selenium-webdriver");
 const settings = require("electron-settings");
 const Driver = require("./Driver");
-const Constants = require("../util/Constants");
-const Util = require("../util/Util");
+const constants = require("../util/constants");
+const utils = require("../util/utils");
 
 class WebManager {
 	constructor(browser) {
@@ -13,12 +13,12 @@ class WebManager {
 	async registerAccount() {
 		try {
 			this.driver = new Driver(this.browser).getDriver();
-			await this.driver.get(Constants.BASE_URL + Constants.REGISTER_FIRST_URL);
+			await this.driver.get(constants.BASE_URL + constants.REGISTER_FIRST_URL);
 		} catch {
 			return null;
 		}
 
-		let randomString = Util.genString(20);
+		const randomString = utils.genString(20);
 
 		/*
 			Setting `noniabvendorconsent` and `_cmpRepromptHash` to an equal value, bypasses privacy agreement
@@ -30,15 +30,14 @@ class WebManager {
 			window.localStorage.setItem("reduxPersist:user", "{\\"email\\":\\"${randomString}@gmail.com\\",\\"password\\":\\"${randomString}\\",\\"username\\":\\"${randomString}\\"}");
 		`);
 
-		await this.driver.get(Constants.BASE_URL + Constants.REGISTER_SECOND_URL);
+		await this.driver.get(constants.BASE_URL + constants.REGISTER_SECOND_URL);
 
-		let emailInput = await this.driver.wait(until.elementLocated(By.name(Constants.EMAIL_INPUT_NAME), Constants.TIMEOUT));
+		const emailInput = await this.driver.wait(until.elementLocated(By.name(constants.EMAIL_INPUT_NAME), constants.TIMEOUT));
 		await emailInput.sendKeys(Key.CONTROL + Key.ENTER);
 
-		await this.driver.wait(until.elementLocated(By.xpath(Constants.SHARE_LINK_XPATH)));
+		await this.driver.wait(until.elementLocated(By.xpath(constants.SHARE_LINK_XPATH)));
 
-		let accessToken = await this.gatherNewToken();
-
+		const accessToken = await this.gatherNewToken();
 		return accessToken;
 	}
 
@@ -66,7 +65,7 @@ class WebManager {
 	}
 
 	async getLatestToken() {
-		let token = await settings.get("token");
+		const token = await settings.get("token");
 		return token;
 	}
 }

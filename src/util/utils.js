@@ -1,4 +1,4 @@
-const Constants = require("../util/Constants");
+const constants = require("./constants");
 
 module.exports = {
 	delay(ms) {
@@ -7,8 +7,8 @@ module.exports = {
 
 	genString(length) {
 		let result = "";
-		let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		let charactersLength = characters.length;
+		const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		const charactersLength = characters.length;
 
 		for (let i = 0; i < length; i++) {
 			result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -18,12 +18,11 @@ module.exports = {
 	},
 
 	getDriverFileName(browser) {
-		return Constants.BROWSER_WEBDRIVERS[browser];
+		return constants.BROWSER_WEBDRIVERS[browser];
 	},
 
 	checkWebDriverExistence(browser) {
-		let driverFileName = this.getDriverFileName(browser);
-
+		const driverFileName = this.getDriverFileName(browser);
 		return process.env.path.includes(driverFileName);
 	}
 };

@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 const WebManager = require("./WebManager");
-const Constants = require("../util/Constants");
+const constants = require("../util/constants");
 
 class Spammer {
 	constructor(user, browser, useLatestToken) {
@@ -35,7 +35,7 @@ class Spammer {
 	}
 
 	async send(message, userId) {
-		let valid = await this.sendRequest(message, userId);
+		const valid = await this.sendRequest(message, userId);
 		return valid;
 	}
 
@@ -54,7 +54,7 @@ class Spammer {
 		*/
 		let response = null;
 		try {
-			response = await fetch(Constants.API_BASE_URL + Constants.API_SEND_URL, data).then((res) => res.json());
+			response = await fetch(constants.API_BASE_URL + constants.API_SEND_URL, data).then((res) => res.json());
 		} catch {
 			if (response === null) return true;
 		}
@@ -65,12 +65,12 @@ class Spammer {
 	async getUserId(username) {
 		let userId = null;
 
-		let args = {
+		const args = {
 			searchString: username,
 			limit: 50
 		};
 
-		let url = new URL(Constants.API_BASE_URL + Constants.API_SEARCH_URL);
+		const url = new URL(constants.API_BASE_URL + constants.API_SEARCH_URL);
 		url.search = new URLSearchParams(args).toString();
 
 		let response = null;

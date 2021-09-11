@@ -8,7 +8,7 @@ class Driver {
 	}
 
 	getDriver() {
-		let driver = new Builder().forBrowser(this.browser);
+		const driver = new Builder().forBrowser(this.browser);
 
 		if (this.browser === "chrome") {
 			driver.setChromeOptions(new chrome.Options());
