@@ -6,8 +6,7 @@ const version = JSON.parse(fs.readFileSync("./package.json", {
 	encoding: "utf8"
 })).version;
 
-module.exports = (_, argv) => {
-	const isProd = (argv.mode === "production");
+module.exports = () => {
 	const public = path.resolve(__dirname, "./build/web");
 	const htmlPlugin = new HtmlWebpackPlugin({
 		template: "./src/web/index.html",
@@ -37,50 +36,17 @@ module.exports = (_, argv) => {
 					use: ["style-loader", "css-loader"]
 				},
 				{
-					test: /\.scss$/,
-					use: [
-						{
-							loader: "css-loader",
-							options: {
-								sourceMap: !isProd
-							}
-						},
-						{
-							loader: "sass-loader",
-							options: {
-								sourceMap: !isProd,
-								outFile: "./build/css/main.css",
-								minimize: true
-							}
-						}
-					]
-				},
-				{
-					test: /\.html$/,
-					exclude: path.join(__dirname, "src", "web", "index.html"),
-					use: {
-						loader: "file-loader",
-						options: {
-							name: "[name].[ext]"
-						}
-					}
-				},
-				{
 					test: /\.(png|svg|jpg|gif)$/,
-					use: {
-						loader: "file-loader",
-						options: {
-							name: "./imgs/[name].[ext]"
-						}
+					type: "asset/resource",
+					generator: {
+						filename: "./images/[name][ext]"
 					}
 				},
 				{
 					test: /\.(ttf|eot|woff|woff2)$/,
-					use: {
-						loader: "file-loader",
-						options: {
-							name: "./fonts/[name].[ext]"
-						}
+					type: "asset/resource",
+					generator: {
+						filename: "./fonts/[name][ext]"
 					}
 				}
 			]
