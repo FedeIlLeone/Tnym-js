@@ -1,8 +1,10 @@
 const { By, until, Key } = require("selenium-webdriver");
-const settings = require("electron-settings");
+const Store = require("electron-store");
 const Driver = require("./Driver");
 const constants = require("../util/constants");
 const utils = require("../util/utils");
+
+const store = new Store();
 
 class WebManager {
 	constructor(browser) {
@@ -59,13 +61,13 @@ class WebManager {
 			}
 		}
 
-		await settings.set("token", token);
+		store.set("token", token);
 
 		return token;
 	}
 
 	async getLatestToken() {
-		const token = await settings.get("token");
+		const token = store.get("token");
 		return token;
 	}
 }

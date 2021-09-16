@@ -5,7 +5,7 @@ const { readFileSync } = require("fs");
 const os = require("os");
 const path = require("path");
 const fetch = require("node-fetch");
-const settings = require("electron-settings");
+const Store = require("electron-store");
 const Spammer = require("../structures/Spammer");
 const constants = require("../util/constants");
 const utils = require("../util/utils");
@@ -24,6 +24,8 @@ const versionText = document.getElementById("version-text");
 
 require("../../semantic/dist/semantic.min.js");
 require("../../semantic/dist/semantic.min.css");
+
+const store = new Store();
 
 let started = false;
 let spammer = null;
@@ -89,9 +91,7 @@ closeButton.onclick = () => {
 	window.close();
 };
 
-settings.get("user").then((res) => {
-	if (res) userInput.value = res;
-});
+userInput.value = store.get("user", "");
 
 $("input:text").click(function () {
 	$(this).parent().find("input:file").click();
@@ -121,9 +121,7 @@ $(browserDropdown).dropdown({
 });
 
 $(".activating.element").popup();
-settings.has("token").then((res) => {
-	if (res) $(latestTokenCheckbox).checkbox("set enabled");
-});
+if (store.has("token")) $(latestTokenCheckbox).checkbox("set enabled");
 
 startButton.onclick = async () => {
 	if (started) {
@@ -162,7 +160,7 @@ startButton.onclick = async () => {
 		showMessageBox("Warning", "warning", `${user} doesn't exist on Tellonym`);
 		return;
 	}
-	await settings.set("user", user);
+	store.set("user", user);
 
 	started = true;
 	startStop(true);
