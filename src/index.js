@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require("electron");
-require("@electron/remote/main").initialize();
+const remoteMain = require("@electron/remote/main");
+const Store = require("electron-store");
 
 const DEBUG = false;
 
@@ -8,7 +9,17 @@ function createWindow() {
 		width: 400,
 		height: 520,
 		center: true,
-		resizable: false,
+
+		/*
+			TODO: Remember to remove these limits and set back resizable to false
+			when the issue (https://github.com/electron/electron/issues/30788) gets fixed
+		*/
+		minWidth: 400,
+		minHeight: 520,
+		maxWidth: 400,
+		maxHeight: 520,
+		resizable: true,
+
 		maximizable: false,
 		fullscreenable: false,
 		frame: false,
@@ -16,12 +27,12 @@ function createWindow() {
 		icon: "./assets/icon.ico",
 		webPreferences: {
 			contextIsolation: false,
-			enableRemoteModule: true,
 			nodeIntegration: true
 		}
 	});
 	win.setTitle("Tnym-js");
 	win.setMenu(null);
+	remoteMain.enable(win.webContents);
 	win.loadFile("./build/web/index.html");
 
 	if (DEBUG) {
@@ -30,6 +41,9 @@ function createWindow() {
 		});
 	}
 }
+
+remoteMain.initialize();
+Store.initRenderer();
 
 app.whenReady().then(() => {
 	createWindow();

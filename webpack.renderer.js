@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
 const version = JSON.parse(fs.readFileSync("./package.json", {
 	encoding: "utf8"
@@ -33,7 +34,7 @@ module.exports = () => {
 			rules: [
 				{
 					test: /\.css$/,
-					use: ["style-loader", "css-loader"]
+					use: [MiniCssExtractPlugin.loader, "css-loader"]
 				},
 				{
 					test: /\.(png|svg|jpg|gif)$/,
@@ -53,6 +54,7 @@ module.exports = () => {
 		},
 		plugins: [
 			htmlPlugin,
+			new MiniCssExtractPlugin(),
 			new webpack.DefinePlugin({
 				_VERSION_: JSON.stringify(version)
 			})
