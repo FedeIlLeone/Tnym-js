@@ -1,6 +1,5 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-env browser, jquery */
-const { dialog } = require("@electron/remote");
 const { readFileSync } = require("fs");
 const os = require("os");
 const path = require("path");
@@ -30,11 +29,14 @@ const store = new Store();
 let started = false;
 let spammer = null;
 
-async function showMessageBox(title, type, message) {
-	await dialog.showMessageBox(null, {
+async function showToast(title, type, message) {
+	$("body").toast({
+		title: title,
 		message: message,
-		type: type,
-		title: title
+		class: "grey",
+		classProgress: type === "warning" ? "yellow" : "blue",
+		showProgress: "bottom",
+		displayTime: "auto"
 	});
 }
 
@@ -138,7 +140,7 @@ startButton.onclick = async () => {
 
 	const validate = (user === "" || !file || browser === "") ? false : true;
 	if (!validate) {
-		showMessageBox("Warning", "warning", "Couldn't start because not all boxes are filled");
+		showToast("Warning", "warning", "Couldn't start because not all boxes are filled");
 		return;
 	}
 
@@ -157,7 +159,7 @@ startButton.onclick = async () => {
 	loading(true, "Checking user existence...");
 	const userId = await spammer.getUserId(user);
 	if (!userId) {
-		showMessageBox("Warning", "warning", `${user} doesn't exist on Tellonym`);
+		showToast("Warning", "warning", `${user} doesn't exist on Tellonym`);
 		return;
 	}
 	store.set("user", user);
@@ -222,7 +224,7 @@ checkUpdates().then(([isLatest, latestVersion]) => {
 	versionText.onclick = async () => {
 		if (pressed) return;
 		pressed = true;
-		await showMessageBox("Update Check", updCheckFail ? "warning" : "info", isLatest ? "Up to date!" : (updCheckFail ? "Update check failed." : `Update v${latestVersion} is available!`));
+		await showToast("Update Check", updCheckFail ? "warning" : "info", isLatest ? "Up to date!" : (updCheckFail ? "Update check failed." : `Update v${latestVersion} is available!`));
 		pressed = false;
 	};
 });

@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require("electron");
-const remoteMain = require("@electron/remote/main");
 const Store = require("electron-store");
 
 const DEBUG = false;
@@ -32,7 +31,6 @@ function createWindow() {
 	});
 	win.setTitle("Tnym-js");
 	win.setMenu(null);
-	remoteMain.enable(win.webContents);
 	win.loadFile("./build/web/index.html");
 
 	if (DEBUG) {
@@ -42,7 +40,6 @@ function createWindow() {
 	}
 }
 
-remoteMain.initialize();
 Store.initRenderer();
 
 app.whenReady().then(() => {
