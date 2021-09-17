@@ -1,6 +1,6 @@
 {
 	"name": "tnym-js",
-	"version": "2.3.2",
+	"version": "2.3.3",
 	"description": "Automated tool to spam users on Tellonym",
 	"main": "build/main.js",
 	"scripts": {

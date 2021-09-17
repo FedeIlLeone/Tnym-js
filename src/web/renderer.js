@@ -29,7 +29,7 @@ const store = new Store();
 let started = false;
 let spammer = null;
 
-async function showToast(title, type, message) {
+function showToast(title, type, message) {
 	$("body").toast({
 		title: title,
 		message: message,
@@ -160,6 +160,7 @@ startButton.onclick = async () => {
 	const userId = await spammer.getUserId(user);
 	if (!userId) {
 		showToast("Warning", "warning", `${user} doesn't exist on Tellonym`);
+		conclude();
 		return;
 	}
 	store.set("user", user);
@@ -220,11 +221,7 @@ checkUpdates().then(([isLatest, latestVersion]) => {
 	// eslint-disable-next-line no-undef
 	versionText.innerHTML = `<span class="ui inverted ${isLatest ? "success" : (updCheckFail ? "warning" : "error")} text">v${_VERSION_}</span>`;
 
-	let pressed = false;
 	versionText.onclick = async () => {
-		if (pressed) return;
-		pressed = true;
-		await showToast("Update Check", updCheckFail ? "warning" : "info", isLatest ? "Up to date!" : (updCheckFail ? "Update check failed." : `Update v${latestVersion} is available!`));
-		pressed = false;
+		showToast("Update Check", updCheckFail ? "warning" : "info", isLatest ? "Up to date!" : (updCheckFail ? "Update check failed." : `Update v${latestVersion} is available!`));
 	};
 });
