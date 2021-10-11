@@ -8,17 +8,7 @@ function createWindow() {
 		width: 400,
 		height: 520,
 		center: true,
-
-		/*
-			TODO: Remember to remove these limits and set back resizable to false
-			when the issue (https://github.com/electron/electron/issues/30788) gets fixed
-		*/
-		minWidth: 400,
-		minHeight: 520,
-		maxWidth: 400,
-		maxHeight: 520,
-		resizable: true,
-
+		resizable: false,
 		maximizable: false,
 		fullscreenable: false,
 		frame: false,
