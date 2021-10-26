@@ -1,6 +1,6 @@
 {
 	"name": "tnym-js",
-	"version": "2.3.3",
+	"version": "2.4.0",
 	"description": "Automated tool to spam users on Tellonym",
 	"main": "build/main.js",
 	"scripts": {
@@ -47,18 +47,18 @@
 		"fomantic-ui": "^2.8.8",
 		"jquery": "^3.6.0",
 		"node-fetch": "^2.6.2",
-		"selenium-webdriver": "^4.0.0-rc-2"
+		"selenium-webdriver": "^4.0.0"
 	},
 	"devDependencies": {
 		"concurrently": "^6.3.0",
-		"css-loader": "^6.4.0",
-		"electron": "^15.1.2",
+		"css-loader": "^6.5.0",
+		"electron": "^15.3.0",
 		"electron-builder": "^22.13.1",
-		"eslint": "^8.0.0",
+		"eslint": "^8.1.0",
 		"gulp": "^4.0.2",
-		"html-webpack-plugin": "^5.3.2",
-		"mini-css-extract-plugin": "^2.4.2",
-		"webpack": "^5.58.1",
-		"webpack-cli": "^4.9.0"
+		"html-webpack-plugin": "^5.5.0",
+		"mini-css-extract-plugin": "^2.4.3",
+		"webpack": "^5.60.0",
+		"webpack-cli": "^4.9.1"
 	}
 }

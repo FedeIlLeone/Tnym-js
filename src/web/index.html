@@ -5,8 +5,13 @@
 		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src * 'unsafe-inline'; font-src * data:; connect-src *">
 
 		<style>
-			.ui.action.input input[type="file"] {
-				display: none;
+			input, textarea {
+				background: #1b1c1d !important;
+				caret-color: white;
+				color: rgba(255, 255, 255, .8) !important;
+			}
+			input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+				-webkit-appearance: none;
 			}
 		</style>
 	</head>
@@ -25,53 +30,103 @@
 								<h1 class="ui inverted large header">Tnym-js</h1>
 							</div>
 							<div class="right floated five wide column" style="-webkit-app-region: drag;">
-								<div class="mini circular ui inverted right floated icon button" id="close-button" style="-webkit-app-region: no-drag;">
-									<i class="close icon"></i>
+								<div class="ui inverted right floated mini circular icon button" id="close-button" style="-webkit-app-region: no-drag;">
+									<i class="inverted close icon"></i>
 								</div>
 							</div>
 						</div>
 
-						<h4 class="ui inverted dividing header">Main</h4>
-						<div class="ui fluid input">
+						<div class="ui inverted divider"></div>
+						<div class="ui fluid icon input">
 							<input id="user-input" type="text" maxlength="30" spellcheck="false" placeholder="User">
+							<i class="inverted icon"></i>
 						</div>
 						<p></p>
 						<div class="ui fluid action input">
 							<input type="text" placeholder="Messages file (.txt)" readonly>
-							<input id="file-input" type="file">
-							<div class="ui inverted icon button" id="fileattach-button">
-								<i class="attach icon"></i>
+							<input id="file-input" type="file" hidden>
+							<div class="ui inverted icon button" id="messagesoptions-button">
+								<i class="inverted file icon"></i>
 							</div>
 						</div>
 						<p></p>
-						<div class="ui fluid input">
-							<input id="repeats-input" type="number" min="1" max="100" placeholder="File repeats (def. 1)">
-						</div>
-
-						<h4 class="ui inverted dividing header">WebDriver</h4>
-						<div class="ui fluid inverted selection dropdown" id="browser-dropdown">
-							<input type="hidden" name="choices">
-							<div class="default text">Select browser</div>
-							<i class="dropdown icon"></i>
-							<div class="menu">
-								<div class="item">Chrome</div>
-								<div class="item">Firefox</div>
+						<div class="ui middle aligned grid">
+							<div class="left floated fourteen wide column">
+								<div class="ui fluid inverted selection dropdown" id="browser-dropdown">
+									<input type="hidden" name="choices">
+									<div class="default text">Select browser</div>
+									<i class="inverted dropdown icon"></i>
+									<div class="menu">
+										<div class="item">Chrome</div>
+										<div class="item">Firefox</div>
+									</div>
+								</div>
+							</div>
+							<div class="right floated two wide column">
+								<div class="ui inverted right floated icon button" id="webdriveroptions-button">
+									<i class="inverted server icon"></i>
+								</div>
 							</div>
 						</div>
-						<p></p>
-						<div class="ui inverted checked checkbox" id="latesttoken-checkbox" data-tooltip="Use your latest token created if available" data-position="bottom left" data-variation="small">
-							<input type="checkbox" disabled checked>
-							<label>Use latest token</label>
-						</div>
 
-						<h4 class="ui inverted dividing header">Controls</h4>
-						<div class="ui fluid inverted vertical animated black button" id="start-button">
-							<div class="hidden content">Start</div>
-							<div class="visible content">
-								<i class="play icon color green" id="start-icon"></i>
+						<div class="ui inverted divider"></div>
+						<div class="ui grid">
+							<div class="left floated fourteen wide column">
+								<div class="ui fluid inverted disabled vertical animated black button" id="start-button">
+									<div class="hidden content">Start</div>
+									<div class="visible content">
+										<i class="inverted play icon color green" id="start-icon"></i>
+									</div>
+								</div>
+							</div>
+							<div class="right floated two wide column">
+								<div class="ui inverted right floated icon button" id="logs-button">
+									<i class="inverted terminal icon"></i>
+								</div>
 							</div>
 						</div>
 					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui inverted modal" id="messages-modal" style="user-select: none;">
+			<div class="ui inverted header">Messages Options</div>
+			<div class="content">
+				<div class="ui fluid input">
+					<input id="repeats-input" type="number" min="1" max="100" placeholder="File repeats (def. 1)">
+				</div>
+				<p></p>
+				<div class="ui inverted checkbox" id="randomizefile-checkbox" data-tooltip="Randomize your messages file" data-position="bottom left" data-variation="small">
+					<input type="checkbox">
+					<label>Randomize file</label>
+				</div>
+			</div>
+			<div class="actions">
+				<div class="ui positive button">OK</div>
+			</div>
+		</div>
+
+		<div class="ui inverted modal" id="webdriver-modal" style="user-select: none;">
+			<div class="ui inverted header">WebDriver Options</div>
+			<div class="content">
+				<h4 class="ui inverted dividing header">Proxy</h4>
+				<div class="ui fluid input">
+					<input type="text" placeholder="Proxies file (.txt)" readonly>
+					<input id="proxiesfile-input" type="file" hidden>
+				</div>
+			</div>
+			<div class="actions">
+				<div class="ui positive button">OK</div>
+			</div>
+		</div>
+
+		<div class="ui inverted modal" id="logs-modal" style="user-select: none;">
+			<i class="inverted close icon"></i>
+			<div class="ui inverted header">Logs</div>
+			<div class="content">
+				<div class="ui fluid input">
+					<textarea id="logs-textarea" style="resize:none;width:100%;" rows="8" readonly>[*] Tnym-js</textarea>
 				</div>
 			</div>
 		</div>

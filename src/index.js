@@ -1,12 +1,14 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const Store = require("electron-store");
 
-const DEBUG = false;
+const DEBUG = true;
+
+let win = null;
 
 function createWindow() {
-	const win = new BrowserWindow({
+	win = new BrowserWindow({
 		width: 400,
-		height: 520,
+		height: 325,
 		center: true,
 		resizable: false,
 		maximizable: false,
@@ -46,4 +48,10 @@ app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") {
 		app.quit();
 	}
+});
+
+ipcMain.on("set-proxy", (event, proxy) => {
+	win.webContents.session.setProxy({
+		proxyRules: proxy
+	});
 });
