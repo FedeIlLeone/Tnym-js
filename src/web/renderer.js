@@ -133,7 +133,7 @@ closeButton.onclick = () => {
 };
 
 if (store.has("user")) {
-	const userSaved = store.get("user");
+	const userSaved = store.get("user").toLowerCase();
 	if (userSaved) {
 		$(userInput).prop("readonly", true);
 		getUserId(userSaved).then((userId) => {
@@ -149,7 +149,7 @@ if (store.has("user")) {
 	}
 }
 $(userInput).on("focusout", async () => {
-	const userInserted = userInput.value;
+	const userInserted = userInput.value.toLowerCase();
 	if (userInserted === "") return;
 
 	$(userInput).parent().addClass("loading");
