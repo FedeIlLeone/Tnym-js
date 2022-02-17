@@ -34,7 +34,9 @@ class WebManager {
 
 		await this.driver.get(constants.BASE_URL + constants.REGISTER_SECOND_URL);
 
-		const emailInput = await this.driver.wait(until.elementLocated(By.name(constants.EMAIL_INPUT_NAME), constants.TIMEOUT));
+		const emailInput = await this.driver.wait(
+			until.elementLocated(By.name(constants.EMAIL_INPUT_NAME), constants.TIMEOUT)
+		);
 		await emailInput.sendKeys(Key.CONTROL + Key.ENTER);
 
 		await this.driver.wait(until.elementLocated(By.xpath(constants.SHARE_LINK_XPATH)));

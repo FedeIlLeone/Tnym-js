@@ -26,9 +26,7 @@ function createWindow() {
 	win.loadFile("./build/web/index.html");
 
 	if (DEBUG) {
-		win.webContents.openDevTools({
-			mode: "undocked"
-		});
+		win.webContents.openDevTools({ mode: "undocked" });
 	}
 }
 

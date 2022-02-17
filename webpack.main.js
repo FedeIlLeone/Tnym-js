@@ -1,9 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
-const version = JSON.parse(fs.readFileSync("./package.json", {
-	encoding: "utf8"
-})).version;
+const version = JSON.parse(fs.readFileSync("./package.json", { encoding: "utf8" })).version;
 
 module.exports = () => {
 	const public = path.resolve(__dirname, "./build");

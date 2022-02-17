@@ -1,5 +1,5 @@
 {
-	"extends": "eslint:recommended",
+	"extends": ["eslint:recommended", "plugin:prettier/recommended"],
 	"env": {
 		"node": true,
 		"es2021": true
@@ -7,81 +7,68 @@
 	"parserOptions": {
 		"ecmaVersion": "latest"
 	},
-	"rules": { // https://eslint.org/docs/rules/
-		// Possible Errors
-		"no-await-in-loop": "warn",
-		"no-template-curly-in-string": "error",
+	"rules": {
+		// https://eslint.org/docs/rules/
 
-		// Best Practices
-		"accessor-pairs": "warn",
+		// Possible Problems
 		"array-callback-return": "error",
+		"no-await-in-loop": "warn",
+		"no-self-compare": "error",
+		"no-template-curly-in-string": "error",
+		"no-unmodified-loop-condition": "error",
+
+		// Suggestions
+		"accessor-pairs": "warn",
+		"arrow-body-style": "error",
+		"capitalized-comments": ["error", "always", { "ignoreConsecutiveComments": true }],
 		"consistent-return": "error",
-		"dot-location": [
-			"error",
-			"property"
-		],
 		"dot-notation": "error",
 		"eqeqeq": "error",
 		"no-empty-function": "error",
 		"no-floating-decimal": "error",
 		"no-invalid-this": "error",
+		"no-label-var": "error",
 		"no-lone-blocks": "error",
-		"no-multi-spaces": "error",
 		"no-new": "error",
 		"no-new-func": "error",
 		"no-new-wrappers": "error",
 		"no-octal-escape": "error",
 		"no-return-assign": "error",
 		"no-return-await": "error",
-		"no-self-compare": "error",
 		"no-sequences": "error",
 		"no-throw-literal": "error",
-		"no-unmodified-loop-condition": "error",
+		"no-undef-init": "error",
 		"no-unused-expressions": "error",
 		"no-useless-call": "error",
+		"no-useless-computed-key": "error",
 		"no-useless-concat": "error",
 		"no-useless-return": "error",
 		"no-void": "error",
-		"wrap-iife": "error",
+		"prefer-numeric-literals": "error",
+		"prefer-template": "error",
+		"quote-props": ["error", "as-needed"],
 		"yoda": "error",
 
-		// Variables
-		"no-label-var": "error",
-		"no-undef-init": "error",
-
-		// Stylistic Issues
+		// Layout & Formatting
 		"array-bracket-newline": "error",
 		"array-bracket-spacing": "error",
+		"arrow-parens": "error",
+		"arrow-spacing": "error",
 		"block-spacing": "error",
 		"brace-style": "error",
-		"capitalized-comments": ["error", "always", {
-			"ignoreConsecutiveComments": true
-		}],
 		"comma-dangle": "error",
 		"comma-spacing": "error",
 		"comma-style": "error",
 		"computed-property-spacing": "error",
+		"dot-location": ["error", "property"],
 		"func-call-spacing": "error",
-		"object-curly-spacing": [
-			"error",
-			"always"
-		],
-		"quote-props": [
-			"error",
-			"as-needed"
-		],
+		"no-multi-spaces": "error",
+		"object-curly-spacing": ["error", "always"],
 		"quotes": "error",
 		"semi": "error",
 		"semi-spacing": "error",
-
-		// ECMAScript 6
-		"arrow-body-style": "error",
-		"arrow-parens": "error",
-		"arrow-spacing": "error",
-		"no-useless-computed-key": "error",
-		"prefer-numeric-literals": "error",
-		"prefer-template": "error",
 		"template-curly-spacing": "error",
+		"wrap-iife": "error",
 		"yield-star-spacing": "error"
 	}
 }

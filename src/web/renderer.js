@@ -50,12 +50,16 @@ function showToast(title, type, message) {
 
 function loading(state, msg) {
 	if (msg) loadingDimmer.firstElementChild.innerHTML = msg;
-	$(loadingDimmer).removeClass(state ? "" : "active").addClass(state ? "active" : "");
+	$(loadingDimmer)
+		.removeClass(state ? "" : "active")
+		.addClass(state ? "active" : "");
 }
 
 function startStop(state) {
 	startButton.firstElementChild.innerHTML = state ? "Stop" : "Start";
-	$(startIcon).removeClass(state ? "play green" : "stop red").addClass(state ? "stop red" : "play green");
+	$(startIcon)
+		.removeClass(state ? "play green" : "stop red")
+		.addClass(state ? "stop red" : "play green");
 }
 
 function conclude() {
@@ -79,10 +83,7 @@ function driverSetPath(browser) {
 async function getUserId(username) {
 	let userId = null;
 
-	const args = {
-		searchString: username,
-		limit: 50
-	};
+	const args = { searchString: username, limit: 50 };
 
 	const url = new URL(constants.API_BASE_URL + constants.API_SEARCH_URL);
 	url.search = new URLSearchParams(args).toString();
@@ -204,7 +205,7 @@ startButton.onclick = async () => {
 	const browser = $(browserDropdown).dropdown("get value");
 	const proxiesFile = proxiesFileInput.files[0];
 
-	const validate = (user === "" || !file || browser === "") ? false : true;
+	const validate = user === "" || !file || browser === "" ? false : true;
 	if (!validate) {
 		showToast("Warning", "warning", "Couldn't start because not all boxes are filled");
 		return;
@@ -215,16 +216,14 @@ startButton.onclick = async () => {
 		driverSetPath(browser);
 	}
 
-	const inputFile = fs.readFileSync(file.path, {
-		encoding: "utf-8"
-	});
+	const inputFile = fs.readFileSync(file.path, { encoding: "utf-8" });
 	const messages = randomizeFile ? utils.shuffle(inputFile.split(/\r?\n/)) : inputFile.split(/\r?\n/);
 	const ogMessages = inputFile.split(/\r?\n/);
 
-	const inputProxiesFile = proxiesFile ? fs.readFileSync(proxiesFile.path, {
-		encoding: "utf-8"
-	}) : null;
-	const proxies = proxiesFile ? inputProxiesFile.split(/\r?\n/).filter((proxy) => constants.PROXY_REGEX.test(proxy)) : null;
+	const inputProxiesFile = proxiesFile ? fs.readFileSync(proxiesFile.path, { encoding: "utf-8" }) : null;
+	const proxies = proxiesFile
+		? inputProxiesFile.split(/\r?\n/).filter((proxy) => constants.PROXY_REGEX.test(proxy))
+		: null;
 
 	spammer = new Spammer(user, browser);
 
@@ -297,10 +296,16 @@ logsButton.onclick = () => $(logsModal).modal("show");
 checkUpdates().then(([isLatest, latestVersion]) => {
 	const updCheckFail = isLatest === null;
 
-	// eslint-disable-next-line no-undef
-	versionText.innerHTML = `<span class="ui inverted ${isLatest ? "success" : (updCheckFail ? "warning" : "error")} text">v${_VERSION_}</span>`;
+	versionText.innerHTML = `<span class="ui inverted ${
+		isLatest ? "success" : updCheckFail ? "warning" : "error"
+		// eslint-disable-next-line no-undef
+	} text">v${_VERSION_}</span>`;
 
 	versionText.onclick = async () => {
-		showToast("Update Check", updCheckFail ? "warning" : "info", isLatest ? "Up to date!" : (updCheckFail ? "Update check failed." : `Update v${latestVersion} is available!`));
+		showToast(
+			"Update Check",
+			updCheckFail ? "warning" : "info",
+			isLatest ? "Up to date!" : updCheckFail ? "Update check failed." : `Update v${latestVersion} is available!`
+		);
 	};
 });

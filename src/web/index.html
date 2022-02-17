@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src * 'unsafe-inline'; font-src * data:; connect-src *">
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src * 'unsafe-inline'; font-src * data:; connect-src *"
+		/>
 
 		<style>
-			input, textarea {
+			input,
+			textarea {
 				background: #1b1c1d !important;
 				caret-color: white;
-				color: rgba(255, 255, 255, .8) !important;
+				color: rgba(255, 255, 255, 0.8) !important;
 			}
-			input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+			input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
 				-webkit-appearance: none;
 			}
 		</style>
 	</head>
 
-	<body style="background-color:#1B1C1D; user-select: none;">
+	<body style="background-color: #1b1c1d; user-select: none">
 		<div class="ui grid">
-			<div class="ui dimmer" id="loading-dimmer" style="-webkit-app-region: drag;">
+			<div class="ui dimmer" id="loading-dimmer" style="-webkit-app-region: drag">
 				<div class="ui inverted text loader">Template</div>
 			</div>
 
 			<div class="sixteen wide column">
 				<div class="ui inverted segment">
 					<form class="ui inverted equal width form" id="main-form">
-						<div class="ui grid" style="-webkit-app-region: drag;">
-							<div class="left floated five wide column" style="-webkit-app-region: drag;">
+						<div class="ui grid" style="-webkit-app-region: drag">
+							<div class="left floated five wide column" style="-webkit-app-region: drag">
 								<h1 class="ui inverted large header">Tnym-js</h1>
 							</div>
-							<div class="right floated five wide column" style="-webkit-app-region: drag;">
-								<div class="ui inverted right floated mini circular icon button" id="close-button" style="-webkit-app-region: no-drag;">
+							<div class="right floated five wide column" style="-webkit-app-region: drag">
+								<div
+									class="ui inverted right floated mini circular icon button"
+									id="close-button"
+									style="-webkit-app-region: no-drag"
+								>
 									<i class="inverted close icon"></i>
 								</div>
 							</div>
@@ -38,13 +47,13 @@
 
 						<div class="ui inverted divider"></div>
 						<div class="ui fluid icon input">
-							<input id="user-input" type="text" maxlength="30" spellcheck="false" placeholder="User">
+							<input id="user-input" type="text" maxlength="30" spellcheck="false" placeholder="User" />
 							<i class="inverted icon"></i>
 						</div>
 						<p></p>
 						<div class="ui fluid action input">
-							<input type="text" placeholder="Messages file (.txt)" readonly>
-							<input id="file-input" type="file" hidden>
+							<input type="text" placeholder="Messages file (.txt)" readonly />
+							<input id="file-input" type="file" hidden />
 							<div class="ui inverted icon button" id="messagesoptions-button">
 								<i class="inverted file icon"></i>
 							</div>
@@ -53,7 +62,7 @@
 						<div class="ui middle aligned grid">
 							<div class="left floated fourteen wide column">
 								<div class="ui fluid inverted selection dropdown" id="browser-dropdown">
-									<input type="hidden" name="choices">
+									<input type="hidden" name="choices" />
 									<div class="default text">Select browser</div>
 									<i class="inverted dropdown icon"></i>
 									<div class="menu">
@@ -72,7 +81,10 @@
 						<div class="ui inverted divider"></div>
 						<div class="ui grid">
 							<div class="left floated fourteen wide column">
-								<div class="ui fluid inverted disabled vertical animated black button" id="start-button">
+								<div
+									class="ui fluid inverted disabled vertical animated black button"
+									id="start-button"
+								>
 									<div class="hidden content">Start</div>
 									<div class="visible content">
 										<i class="inverted play icon color green" id="start-icon"></i>
@@ -90,15 +102,21 @@
 			</div>
 		</div>
 
-		<div class="ui inverted modal" id="messages-modal" style="user-select: none;">
+		<div class="ui inverted modal" id="messages-modal" style="user-select: none">
 			<div class="ui inverted header">Messages Options</div>
 			<div class="content">
 				<div class="ui fluid input">
-					<input id="repeats-input" type="number" min="1" max="100" placeholder="File repeats (def. 1)">
+					<input id="repeats-input" type="number" min="1" max="100" placeholder="File repeats (def. 1)" />
 				</div>
 				<p></p>
-				<div class="ui inverted checkbox" id="randomizefile-checkbox" data-tooltip="Randomize your messages file" data-position="bottom left" data-variation="small">
-					<input type="checkbox">
+				<div
+					class="ui inverted checkbox"
+					id="randomizefile-checkbox"
+					data-tooltip="Randomize your messages file"
+					data-position="bottom left"
+					data-variation="small"
+				>
+					<input type="checkbox" />
 					<label>Randomize file</label>
 				</div>
 			</div>
@@ -107,13 +125,13 @@
 			</div>
 		</div>
 
-		<div class="ui inverted modal" id="webdriver-modal" style="user-select: none;">
+		<div class="ui inverted modal" id="webdriver-modal" style="user-select: none">
 			<div class="ui inverted header">WebDriver Options</div>
 			<div class="content">
 				<h4 class="ui inverted dividing header">Proxy</h4>
 				<div class="ui fluid input">
-					<input type="text" placeholder="Proxies file (.txt)" readonly>
-					<input id="proxiesfile-input" type="file" hidden>
+					<input type="text" placeholder="Proxies file (.txt)" readonly />
+					<input id="proxiesfile-input" type="file" hidden />
 				</div>
 			</div>
 			<div class="actions">
@@ -121,17 +139,17 @@
 			</div>
 		</div>
 
-		<div class="ui inverted modal" id="logs-modal" style="user-select: none;">
+		<div class="ui inverted modal" id="logs-modal" style="user-select: none">
 			<i class="inverted close icon"></i>
 			<div class="ui inverted header">Logs</div>
 			<div class="content">
 				<div class="ui fluid input">
-					<textarea id="logs-textarea" style="resize:none;width:100%;" rows="8" readonly>[*] Tnym-js</textarea>
+					<textarea id="logs-textarea" style="resize: none; width: 100%" rows="8" readonly>[*] Tnym-js</textarea>
 				</div>
 			</div>
 		</div>
 
-		<p style="color:white; font-weight: bold; float: left; margin-left: 15px;">© 2021 FedeIlLeone</p>
-		<p id="version-text" style="font-weight: bold; float: right; margin-right: 15px;"></p>
+		<p style="color: white; font-weight: bold; float: left; margin-left: 15px">© 2021 FedeIlLeone</p>
+		<p id="version-text" style="font-weight: bold; float: right; margin-right: 15px"></p>
 	</body>
 </html>

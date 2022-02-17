@@ -3,9 +3,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
-const version = JSON.parse(fs.readFileSync("./package.json", {
-	encoding: "utf8"
-})).version;
+const version = JSON.parse(fs.readFileSync("./package.json", { encoding: "utf8" })).version;
 
 module.exports = () => {
 	const public = path.resolve(__dirname, "./build/web");
