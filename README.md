@@ -4,6 +4,8 @@
 
 Tnym-js is an automated tool to spam users on the noted website [Tellonym](https://tellonym.me/).
 
+> :warning: Account creation is currently broken! Create one manually when the browser opens.
+
 ## Features
 
 - A very fast spammer.
