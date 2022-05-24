@@ -1,5 +1,5 @@
-const fetch = require("node-fetch");
 const { ipcRenderer } = require("electron");
+const { fetch } = require("undici");
 const WebManager = require("./WebManager");
 const constants = require("../util/constants");
 

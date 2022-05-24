@@ -1,5 +1,5 @@
-const { By, until, Key } = require("selenium-webdriver");
 const Store = require("electron-store");
+const { By, until, Key } = require("selenium-webdriver");
 const Driver = require("./Driver");
 const constants = require("../util/constants");
 const utils = require("../util/utils");
@@ -25,6 +25,8 @@ class WebManager {
 		/*
 			Setting `noniabvendorconsent` and `_cmpRepromptHash` to an equal value, bypasses privacy agreement
 			and `reduxPersist:user` is for a faster account registration, which bypasses all inputs
+
+			! got patched, wait for a new release
 		*/
 		await this.driver.executeScript(`
 			window.localStorage.setItem("noniabvendorconsent", ".");
@@ -58,9 +60,7 @@ class WebManager {
 		if (profileData) profileData = JSON.parse(profileData);
 
 		if (appData.accounts.length !== 0) {
-			if (appData.accounts[profileData.profile.id]) {
-				token = appData.accounts[profileData.profile.id].accessToken;
-			}
+			if (appData.accounts[profileData.profile.id]) token = appData.accounts[profileData.profile.id].accessToken;
 		}
 
 		store.set("token", token);

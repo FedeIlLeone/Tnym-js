@@ -1,10 +1,9 @@
 /* eslint-disable no-await-in-loop */
-/* eslint-env browser, jquery */
+const Store = require("electron-store");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const fetch = require("node-fetch");
-const Store = require("electron-store");
+const { fetch } = require("undici");
 const Spammer = require("../structures/Spammer");
 const constants = require("../util/constants");
 const utils = require("../util/utils");
@@ -97,7 +96,10 @@ async function getUserId(username) {
 
 	if (response.results) {
 		response.results.forEach((search) => {
-			if (search.username.toLowerCase() === username.toLowerCase()) userId = search.id;
+			if (search.username.toLowerCase() === username.toLowerCase()) {
+				userId = search.id;
+				userInput.value = search.username;
+			}
 		});
 	}
 
@@ -117,12 +119,9 @@ async function checkUpdates() {
 		return [null];
 	}
 
-	// eslint-disable-next-line no-undef
 	const currentVersion = _VERSION_.replaceAll(".", "");
 	const latestVersion = response.version.replaceAll(".", "");
-	if (currentVersion >= latestVersion) {
-		return [true];
-	}
+	if (currentVersion >= latestVersion) return [true];
 
 	return [false, response.version];
 }
@@ -177,9 +176,7 @@ repeatsInput.oninput = function () {
 	const number = repeatsInput.value;
 	if (number) {
 		repeatsInput.value = Math.floor(number);
-		if (number < 1 || number > 100) {
-			repeatsInput.value = Math.min(Math.max(parseInt(number), 1), 100);
-		}
+		if (number < 1 || number > 100) repeatsInput.value = Math.min(Math.max(parseInt(number), 1), 100);
 	} else {
 		repeatsInput.value = "";
 	}
@@ -212,9 +209,7 @@ startButton.onclick = async () => {
 	}
 
 	const driverExists = utils.checkWebDriverExistence(browser);
-	if (!driverExists) {
-		driverSetPath(browser);
-	}
+	if (!driverExists) driverSetPath(browser);
 
 	const inputFile = fs.readFileSync(file.path, { encoding: "utf-8" });
 	const messages = randomizeFile ? utils.shuffle(inputFile.split(/\r?\n/)) : inputFile.split(/\r?\n/);
@@ -298,7 +293,6 @@ checkUpdates().then(([isLatest, latestVersion]) => {
 
 	versionText.innerHTML = `<span class="ui inverted ${
 		isLatest ? "success" : updCheckFail ? "warning" : "error"
-		// eslint-disable-next-line no-undef
 	} text">v${_VERSION_}</span>`;
 
 	versionText.onclick = async () => {
