@@ -19,6 +19,7 @@ module.exports = () => {
 		},
 		entry: {
 			jquery: "./src/web/jquery.js",
+			semantic: "./src/web/semantic.js",
 			bundle: "./src/web/renderer.js"
 		},
 		output: {

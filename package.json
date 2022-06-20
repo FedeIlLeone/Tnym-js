@@ -1,12 +1,12 @@
 {
 	"name": "tnym-js",
-	"version": "2.4.2",
+	"version": "2.4.3",
 	"description": "Automated tool to spam users on Tellonym",
 	"main": "build/main.js",
 	"scripts": {
 		"start": "electron .",
 		"build": "(if exist build rmdir /s /q build) && mkdir build && npm run install_externals && webpack --config webpack.main.js --mode production && webpack --config webpack.renderer.js --mode production",
-		"dist": "npm run build && electron-builder --win portable",
+		"dist": "npm run build && electron-builder --win",
 		"install_externals": "npm i --prefix ./build bufferutil utf-8-validate",
 		"dev": "(gulp --gulpfile ./semantic/gulpfile.js build) && npm run install_externals && npm run watch",
 		"watch": "concurrently --kill-others \"webpack --config webpack.main.js --mode development --watch\" \"webpack --config webpack.renderer.js --mode development --watch\"",
@@ -30,7 +30,7 @@
 		"win": {
 			"target": [
 				{
-					"target": "nsis",
+					"target": "portable",
 					"arch": [
 						"x64",
 						"ia32"
@@ -41,25 +41,25 @@
 		}
 	},
 	"dependencies": {
-		"electron-store": "^8.0.1",
+		"electron-store": "^8.0.2",
 		"fomantic-ui": "^2.8.8",
 		"jquery": "^3.6.0",
-		"selenium-webdriver": "^4.1.2",
-		"undici": "^5.3.0"
+		"selenium-webdriver": "^4.2.0",
+		"undici": "^5.5.1"
 	},
 	"devDependencies": {
-		"concurrently": "^7.2.1",
+		"concurrently": "^7.2.2",
 		"css-loader": "^6.7.1",
-		"electron": "^19.0.0",
+		"electron": "^19.0.4",
 		"electron-builder": "^23.0.3",
-		"eslint": "^8.16.0",
+		"eslint": "^8.18.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"gulp": "^4.0.2",
 		"html-webpack-plugin": "^5.5.0",
-		"mini-css-extract-plugin": "^2.6.0",
-		"prettier": "^2.6.2",
-		"webpack": "^5.72.1",
-		"webpack-cli": "^4.9.2"
+		"mini-css-extract-plugin": "^2.6.1",
+		"prettier": "^2.7.1",
+		"webpack": "^5.73.0",
+		"webpack-cli": "^4.10.0"
 	}
 }

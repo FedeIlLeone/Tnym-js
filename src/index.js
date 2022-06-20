@@ -49,7 +49,5 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on("set-proxy", (event, proxy) => {
-	win.webContents.session.setProxy({
-		proxyRules: proxy
-	});
+	win.webContents.session.setProxy({ proxyRules: proxy });
 });

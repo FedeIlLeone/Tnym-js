@@ -27,9 +27,6 @@ const logsModal = document.getElementById("logs-modal");
 const logsTextarea = document.getElementById("logs-textarea");
 const versionText = document.getElementById("version-text");
 
-require("../../semantic/dist/semantic.min.js");
-require("../../semantic/dist/semantic.min.css");
-
 const store = new Store();
 const userCache = new Map();
 
@@ -74,13 +71,14 @@ function driverSetPath(browser) {
 
 	if (osArch === "arm" || osArch === "ia32") osArch = "x32";
 	if (osArch === "arm64") osArch = "x64";
+	if (driverFileName === "chromedriver") osArch = "";
 
 	const driverPath = path.join(process.resourcesPath, "drivers", driverFileName, osArch);
 	process.env.path += `;${driverPath}`;
 }
 
-async function getUserId(username) {
-	let userId = null;
+async function getUser(username) {
+	let user = null;
 
 	const args = { searchString: username, limit: 50 };
 
@@ -91,19 +89,19 @@ async function getUserId(username) {
 	try {
 		response = await fetch(url).then((res) => res.json());
 	} catch {
-		return userId;
+		return user;
 	}
 
 	if (response.results) {
 		response.results.forEach((search) => {
 			if (search.username.toLowerCase() === username.toLowerCase()) {
-				userId = search.id;
+				user = { id: search.id, username: search.username };
 				userInput.value = search.username;
 			}
 		});
 	}
 
-	return userId;
+	return user;
 }
 
 function log(text) {
@@ -135,10 +133,10 @@ if (store.has("user")) {
 	const userSaved = store.get("user").toLowerCase();
 	if (userSaved) {
 		$(userInput).prop("readonly", true);
-		getUserId(userSaved).then((userId) => {
-			userCache.set(userSaved, userId);
-			if (userId) {
-				userInput.value = userSaved;
+		getUser(userSaved).then((user) => {
+			userCache.set(userSaved, user);
+			if (user) {
+				userInput.value = user.username;
 				$(startButton).removeClass("disabled");
 			} else {
 				store.delete("user");
@@ -152,11 +150,15 @@ $(userInput).on("focusout", async () => {
 	if (userInserted === "") return;
 
 	$(userInput).parent().addClass("loading");
-	const userId = userCache.has(userInserted) ? userCache.get(userInserted) : await getUserId(userInserted);
-	userCache.set(userInserted, userId);
+
+	const user = userCache.get(userInserted) || (await getUser(userInserted));
+	userCache.set(userInserted, user);
+	userInput.value = user?.username || "";
+
 	$(userInput).parent().removeClass("loading");
 	$(startButton).removeClass("disabled");
-	if (userId) return;
+
+	if (user) return;
 
 	$(startButton).addClass("disabled");
 	showToast("Warning", "warning", `${userInserted} doesn't exist on Tellonym`);
@@ -223,8 +225,8 @@ startButton.onclick = async () => {
 	spammer = new Spammer(user, browser);
 
 	loading(true, "Checking user existence...");
-	const userId = userCache.has(user) ? userCache.get(user) : await getUserId(user);
-	if (!userId) {
+	const { id } = userCache.get(user) || (await getUser(user));
+	if (!id) {
 		conclude();
 		return;
 	}
@@ -257,7 +259,7 @@ startButton.onclick = async () => {
 
 				let valid = null;
 				try {
-					valid = await spammer.send(message, userId, proxy);
+					valid = await spammer.send(message, id, proxy);
 				} catch {
 					conclude();
 					return;
