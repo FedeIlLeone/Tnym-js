@@ -45,7 +45,7 @@
 		"fomantic-ui": "^2.8.8",
 		"jquery": "^3.6.0",
 		"selenium-webdriver": "^4.2.0",
-		"undici": "^5.5.1"
+		"undici": "^5.8.0"
 	},
 	"devDependencies": {
 		"concurrently": "^7.2.2",
