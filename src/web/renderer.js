@@ -167,7 +167,7 @@ $(userInput).on("focusout", async () => {
 $("input:text").on("click", function () {
 	$(this).parent().find("input:file").trigger("click");
 });
-$("input:file", ".ui.input", ".ui.action.input").on("change", function (e) {
+$("input:file", ".ui.input", ".ui.action.input").on("change", (e) => {
 	const file = e.target.files[0];
 	$("input:text", $(e.target).parent()).val(file ? file.name : "");
 });
@@ -204,7 +204,7 @@ startButton.onclick = async () => {
 	const browser = $(browserDropdown).dropdown("get value");
 	const proxiesFile = proxiesFileInput.files[0];
 
-	const validate = user === "" || !file || browser === "" ? false : true;
+	const validate = !(user === "" || !file || browser === "");
 	if (!validate) {
 		showToast("Warning", "warning", "Couldn't start because not all boxes are filled");
 		return;

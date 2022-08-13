@@ -11,7 +11,7 @@ class Spammer {
 	}
 
 	async init() {
-		let token = await this.web.getLatestToken();
+		const token = await this.web.getLatestToken();
 
 		if (token) {
 			this.token = token;
