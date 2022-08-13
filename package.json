@@ -44,13 +44,13 @@
 		"electron-store": "^8.1.0",
 		"fomantic-ui": "^2.8.8",
 		"jquery": "^3.6.0",
-		"selenium-webdriver": "^4.3.1",
-		"undici": "^5.8.0"
+		"selenium-webdriver": "^4.4.0",
+		"undici": "^5.8.2"
 	},
 	"devDependencies": {
 		"concurrently": "^7.3.0",
 		"css-loader": "^6.7.1",
-		"electron": "^19.0.10",
+		"electron": "^20.0.2",
 		"electron-builder": "^23.3.3",
 		"eslint": "^8.21.0",
 		"eslint-config-prettier": "^8.5.0",
