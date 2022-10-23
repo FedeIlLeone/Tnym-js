@@ -16,7 +16,10 @@
 			}
 			input::-webkit-outer-spin-button,
 			input::-webkit-inner-spin-button {
-				-webkit-appearance: none;
+				appearance: none;
+			}
+			.ui.modal {
+				user-select: none !important;
 			}
 		</style>
 	</head>
@@ -24,7 +27,7 @@
 	<body style="background-color: #1b1c1d; user-select: none">
 		<div class="ui grid">
 			<div class="ui dimmer" id="loading-dimmer" style="-webkit-app-region: drag">
-				<div class="ui inverted text loader">Template</div>
+				<div class="ui inverted text loader"></div>
 			</div>
 
 			<div class="sixteen wide column">
@@ -51,10 +54,9 @@
 							<i class="inverted icon"></i>
 						</div>
 						<p></p>
-						<div class="ui fluid action input">
-							<input type="text" placeholder="Messages file (.txt)" readonly />
-							<input id="file-input" type="file" hidden />
-							<div class="ui inverted icon button" id="messagesoptions-button">
+						<div class="ui file action input">
+							<input id="file-input" type="file" />
+							<div id="messagesoptions-button" class="ui inverted icon button">
 								<i class="inverted file icon"></i>
 							</div>
 						</div>
@@ -102,7 +104,7 @@
 			</div>
 		</div>
 
-		<div class="ui inverted modal" id="messages-modal" style="user-select: none">
+		<div class="ui inverted modal" id="messages-modal">
 			<div class="ui inverted header">Messages Options</div>
 			<div class="content">
 				<div class="ui fluid input">
@@ -125,13 +127,12 @@
 			</div>
 		</div>
 
-		<div class="ui inverted modal" id="webdriver-modal" style="user-select: none">
+		<div class="ui inverted modal" id="webdriver-modal">
 			<div class="ui inverted header">WebDriver Options</div>
 			<div class="content">
 				<h4 class="ui inverted dividing header">Proxy</h4>
-				<div class="ui fluid input">
-					<input type="text" placeholder="Proxies file (.txt)" readonly />
-					<input id="proxiesfile-input" type="file" hidden />
+				<div class="ui fluid file input">
+					<input id="proxiesfile-input" type="file" />
 				</div>
 			</div>
 			<div class="actions">
@@ -139,12 +140,12 @@
 			</div>
 		</div>
 
-		<div class="ui inverted modal" id="logs-modal" style="user-select: none">
+		<div class="ui inverted modal" id="logs-modal">
 			<i class="inverted close icon"></i>
 			<div class="ui inverted header">Logs</div>
 			<div class="content">
 				<div class="ui fluid input">
-					<textarea id="logs-textarea" style="resize: none; width: 100%" rows="8" readonly>[*] Tnym-js</textarea>
+					<textarea id="logs-textarea" style="resize: none; width: 100%" rows="8" readonly></textarea>
 				</div>
 			</div>
 		</div>

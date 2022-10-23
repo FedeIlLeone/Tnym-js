@@ -164,14 +164,6 @@ $(userInput).on("focusout", async () => {
 	showToast("Warning", "warning", `${userInserted} doesn't exist on Tellonym`);
 });
 
-$("input:text").on("click", function () {
-	$(this).parent().find("input:file").trigger("click");
-});
-$("input:file", ".ui.input", ".ui.action.input").on("change", (e) => {
-	const file = e.target.files[0];
-	$("input:text", $(e.target).parent()).val(file ? file.name : "");
-});
-
 messagesOptionsButton.onclick = () => $(messagesModal).modal("show");
 
 repeatsInput.oninput = function () {
