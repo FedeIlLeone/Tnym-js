@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "electron .",
 		"build": "(if exist build rmdir /s /q build) && mkdir build && npm run install_externals && webpack --config webpack.main.js --mode production && webpack --config webpack.renderer.js --mode production",
-		"dist": "npm run build && electron-builder --win",
+		"dist": "npm run build && electron-builder",
 		"install_externals": "npm i --prefix ./build bufferutil utf-8-validate",
 		"dev": "(gulp --gulpfile ./semantic/gulpfile.js build) && npm run install_externals && npm run watch",
 		"watch": "concurrently --kill-others \"webpack --config webpack.main.js --mode development --watch\" \"webpack --config webpack.renderer.js --mode development --watch\"",
@@ -44,22 +44,22 @@
 		"electron-store": "^8.1.0",
 		"fomantic-ui": "^2.9.0",
 		"jquery": "^3.6.1",
-		"selenium-webdriver": "^4.5.0",
-		"undici": "^5.11.0"
+		"selenium-webdriver": "^4.6.1",
+		"undici": "^5.12.0"
 	},
 	"devDependencies": {
 		"concurrently": "^7.5.0",
-		"css-loader": "^6.7.1",
-		"electron": "^21.2.0",
+		"css-loader": "^6.7.2",
+		"electron": "^21.3.0",
 		"electron-builder": "^23.6.0",
-		"eslint": "^8.26.0",
+		"eslint": "^8.27.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"gulp": "^4.0.2",
 		"html-webpack-plugin": "^5.5.0",
-		"mini-css-extract-plugin": "^2.6.1",
+		"mini-css-extract-plugin": "^2.7.0",
 		"prettier": "^2.7.1",
-		"webpack": "^5.74.0",
-		"webpack-cli": "^4.10.0"
+		"webpack": "^5.75.0",
+		"webpack-cli": "^5.0.0"
 	}
 }
