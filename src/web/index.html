@@ -140,12 +140,17 @@
 			</div>
 		</div>
 
-		<div class="ui inverted modal" id="logs-modal">
+		<div class="ui inverted modal overlay fullscreen" id="logs-modal">
 			<i class="inverted close icon"></i>
 			<div class="ui inverted header">Logs</div>
 			<div class="content">
 				<div class="ui fluid input">
-					<textarea id="logs-textarea" style="resize: none; width: 100%" rows="8" readonly></textarea>
+					<textarea id="logs-textarea" style="resize: none; width: 100%" rows="9" readonly></textarea>
+				</div>
+			</div>
+			<div class="actions">
+				<div class="ui red icon button" id="logs-clear-button">
+					<i class="trash icon"></i>
 				</div>
 			</div>
 		</div>

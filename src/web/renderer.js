@@ -25,6 +25,7 @@ const startIcon = document.getElementById("start-icon");
 const logsButton = document.getElementById("logs-button");
 const logsModal = document.getElementById("logs-modal");
 const logsTextarea = document.getElementById("logs-textarea");
+const logsClearButton = document.getElementById("logs-clear-button");
 const versionText = document.getElementById("version-text");
 
 const store = new Store();
@@ -281,6 +282,10 @@ startButton.onclick = async () => {
 };
 
 logsButton.onclick = () => $(logsModal).modal("show");
+
+logsClearButton.onclick = () => {
+	logsTextarea.value = "";
+};
 
 checkUpdates().then(([isLatest, latestVersion]) => {
 	const updCheckFail = isLatest === null;
