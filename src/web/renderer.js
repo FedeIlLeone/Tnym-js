@@ -9,6 +9,8 @@ const constants = require("../util/constants");
 const utils = require("../util/utils");
 
 const loadingDimmer = document.getElementById("loading-dimmer");
+const updateNag = document.getElementById("update-nag");
+const updateText = document.getElementById("update-text");
 const closeButton = document.getElementById("close-button");
 const userInput = document.getElementById("user-input");
 const fileInput = document.getElementById("file-input");
@@ -289,16 +291,15 @@ logsClearButton.onclick = () => {
 
 checkUpdates().then(([isLatest, latestVersion]) => {
 	const updCheckFail = isLatest === null;
+	const updateStatus = isLatest ? "success" : updCheckFail ? "warning" : "error";
 
-	versionText.innerHTML = `<span class="ui inverted ${
-		isLatest ? "success" : updCheckFail ? "warning" : "error"
-	} text">v${_VERSION_}</span>`;
+	if (updateStatus === "warning") {
+		$(updateNag).nag();
+		$(updateText).text("Update check failed!");
+	} else if (updateStatus === "error") {
+		$(updateNag).nag();
+		$(updateText).text(`Update v${latestVersion} is available!`);
+	}
 
-	versionText.onclick = async () => {
-		showToast(
-			"Update Check",
-			updCheckFail ? "warning" : "info",
-			isLatest ? "Up to date!" : updCheckFail ? "Update check failed." : `Update v${latestVersion} is available!`
-		);
-	};
+	$(versionText).text(`v${_VERSION_}`).addClass(updateStatus);
 });
