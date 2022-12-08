@@ -44,22 +44,22 @@
 		"electron-store": "^8.1.0",
 		"fomantic-ui": "^2.9.0",
 		"jquery": "^3.6.1",
-		"selenium-webdriver": "^4.6.1",
-		"undici": "^5.12.0"
+		"selenium-webdriver": "^4.7.0",
+		"undici": "^5.13.0"
 	},
 	"devDependencies": {
-		"concurrently": "^7.5.0",
+		"concurrently": "^7.6.0",
 		"css-loader": "^6.7.2",
-		"electron": "^21.3.0",
+		"electron": "^22.0.0",
 		"electron-builder": "^23.6.0",
-		"eslint": "^8.27.0",
+		"eslint": "^8.29.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"gulp": "^4.0.2",
 		"html-webpack-plugin": "^5.5.0",
-		"mini-css-extract-plugin": "^2.7.0",
-		"prettier": "^2.7.1",
+		"mini-css-extract-plugin": "^2.7.2",
+		"prettier": "^2.8.1",
 		"webpack": "^5.75.0",
-		"webpack-cli": "^5.0.0"
+		"webpack-cli": "^5.0.1"
 	}
 }
