@@ -43,16 +43,16 @@
 	"dependencies": {
 		"electron-store": "^8.1.0",
 		"fomantic-ui": "^2.9.0",
-		"jquery": "^3.6.1",
-		"selenium-webdriver": "^4.7.0",
-		"undici": "^5.13.0"
+		"jquery": "^3.6.2",
+		"selenium-webdriver": "^4.7.1",
+		"undici": "^5.14.0"
 	},
 	"devDependencies": {
 		"concurrently": "^7.6.0",
-		"css-loader": "^6.7.2",
+		"css-loader": "^6.7.3",
 		"electron": "^22.0.0",
 		"electron-builder": "^23.6.0",
-		"eslint": "^8.29.0",
+		"eslint": "^8.30.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"gulp": "^4.0.2",
