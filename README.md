@@ -4,18 +4,20 @@
 
 Tnym-js is an automated tool to spam users on the noted website [Tellonym](https://tellonym.me/).
 
+**:exclamation: I am not responsible for an incorrect use of the tool.**
+
 > :warning: Account creation is currently broken! Create one manually when the browser opens.
 
 ## Features
 
-- A very fast spammer.
-- Captcha bypass on message sending.
-- Easy interface to use.
-- Nothing external needed to install.
+-   A very fast spammer.
+-   Captcha bypass on message sending.
+-   Easy interface to use.
+-   Nothing external needed to install.
 
 ## Downloads
 
-- Windows | [Portable](https://github.com/FedeIlLeone/Tnym-js/releases/latest/download/Tnym-js.exe)
+-   Windows | [Portable](https://github.com/FedeIlLeone/Tnym-js/releases/latest/download/Tnym-js.exe)
 
 ## Installation
 
@@ -28,15 +30,20 @@ The only requirement to use the tool is to have Chrome or Firefox on your PC. Ha
 If you would like to build the project by yourself, there are scripts ready out of the box.
 
 **Build for Distribution:**
+
 ```shell
 $ npm run build
 ```
+
 **Build for Development:**
+
 ```shell
 $ npm install
 $ npm run dev
 ```
+
 **Run:**
+
 ```shell
 $ npm run start
 ```
