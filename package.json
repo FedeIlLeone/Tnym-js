@@ -1,6 +1,6 @@
 {
 	"name": "tnym-js",
-	"version": "2.4.4",
+	"version": "2.4.5",
 	"description": "Automated tool to spam users on Tellonym",
 	"main": "build/main.js",
 	"scripts": {
@@ -45,7 +45,7 @@
 		"fomantic-ui": "^2.9.0",
 		"jquery": "^3.6.3",
 		"selenium-webdriver": "^4.7.1",
-		"undici": "^5.14.0"
+		"undici": "^5.13.0"
 	},
 	"devDependencies": {
 		"concurrently": "^7.6.0",
