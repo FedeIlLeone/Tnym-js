@@ -43,7 +43,7 @@
 	"dependencies": {
 		"electron-store": "^8.1.0",
 		"fomantic-ui": "^2.9.0",
-		"jquery": "^3.6.2",
+		"jquery": "^3.6.3",
 		"selenium-webdriver": "^4.7.1",
 		"undici": "^5.14.0"
 	},

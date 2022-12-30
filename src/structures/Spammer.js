@@ -36,15 +36,14 @@ class Spammer {
 		const data = {
 			headers: {
 				authorization: `Bearer ${this.token}`,
-				"content-type": "application/json;charset=utf-8"
+				"content-type": "application/json;charset=utf-8",
+				"user-agent": constants.USER_AGENT
 			},
 			body: `{"isSenderRevealed":false,"tell":"${message}","userId":${userId},"limit":25}`,
 			method: "POST"
 		};
 
-		/*
-			Gets null response if request is successful
-		*/
+		// Get null response if request is successful
 		let response = null;
 		try {
 			response = await fetch(constants.API_BASE_URL + constants.API_SEND_URL, data).then((res) => res.json());

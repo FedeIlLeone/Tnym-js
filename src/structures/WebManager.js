@@ -48,9 +48,7 @@ class WebManager {
 	}
 
 	async gatherNewToken() {
-		/*
-			Gets first the profile Id from `reduxPersist:profile` and then get the accessToken from `reduxPersist:__app__`
-		*/
+		// Get first the profile Id from `reduxPersist:profile` and then get the accessToken from `reduxPersist:__app__`
 		let token = "";
 		let [appData, profileData] = await this.driver.executeScript(`
 			return [window.localStorage.getItem("reduxPersist:__app__"), window.localStorage.getItem("reduxPersist:profile")]

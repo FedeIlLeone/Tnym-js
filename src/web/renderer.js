@@ -90,7 +90,13 @@ async function getUser(username) {
 
 	let response = null;
 	try {
-		response = await fetch(url).then((res) => res.json());
+		const data = {
+			headers: {
+				"user-agent": constants.USER_AGENT
+			}
+		};
+
+		response = await fetch(url, data).then((res) => res.json());
 	} catch {
 		return user;
 	}
