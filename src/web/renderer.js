@@ -47,8 +47,8 @@ function showToast(title, type, message) {
 	});
 }
 
-function loading(state, msg) {
-	if (msg) loadingDimmer.firstElementChild.innerHTML = msg;
+function loading(state, message) {
+	if (message) loadingDimmer.firstElementChild.innerHTML = message;
 	$(loadingDimmer)
 		.removeClass(state ? "" : "active")
 		.addClass(state ? "active" : "");
@@ -102,12 +102,12 @@ async function getUser(username) {
 	}
 
 	if (response.results) {
-		response.results.forEach((search) => {
+		for (const search of response.results) {
 			if (search.username.toLowerCase() === username.toLowerCase()) {
 				user = { id: search.id, username: search.username };
 				userInput.value = search.username;
 			}
-		});
+		}
 	}
 
 	return user;
@@ -133,10 +133,10 @@ async function checkUpdates() {
 	return [false, response.version];
 }
 
-closeButton.onclick = () => {
+closeButton.addEventListener("click", () => {
 	if (spammer) spammer.close();
 	window.close();
-};
+});
 
 if (store.has("user")) {
 	const userSaved = store.get("user").toLowerCase();
@@ -173,25 +173,25 @@ $(userInput).on("focusout", async () => {
 	showToast("Warning", "warning", `${userInserted} doesn't exist on Tellonym`);
 });
 
-messagesOptionsButton.onclick = () => $(messagesModal).modal("show");
+messagesOptionsButton.addEventListener("click", () => $(messagesModal).modal("show"));
 
-repeatsInput.oninput = function () {
+repeatsInput.addEventListener("input", () => {
 	const number = repeatsInput.value;
 	if (number) {
 		repeatsInput.value = Math.floor(number);
-		if (number < 1 || number > 100) repeatsInput.value = Math.min(Math.max(parseInt(number), 1), 100);
+		if (number < 1 || number > 100) repeatsInput.value = Math.min(Math.max(Number.parseInt(number), 1), 100);
 	} else {
 		repeatsInput.value = "";
 	}
-};
+});
 
 $(".activating.element").popup();
 
 $(browserDropdown).dropdown();
 
-webdriverOptionsButton.onclick = () => $(webdriverModal).modal("show");
+webdriverOptionsButton.addEventListener("click", () => $(webdriverModal).modal("show"));
 
-startButton.onclick = async () => {
+startButton.addEventListener("click", async () => {
 	if (started) {
 		started = false;
 		loading(true, "Completing last task...");
@@ -214,11 +214,11 @@ startButton.onclick = async () => {
 	const driverExists = utils.checkWebDriverExistence(browser);
 	if (!driverExists) driverSetPath(browser);
 
-	const inputFile = fs.readFileSync(file.path, { encoding: "utf-8" });
+	const inputFile = fs.readFileSync(file.path, { encoding: "utf8" });
 	const messages = randomizeFile ? utils.shuffle(inputFile.split(/\r?\n/)) : inputFile.split(/\r?\n/);
 	const ogMessages = inputFile.split(/\r?\n/);
 
-	const inputProxiesFile = proxiesFile ? fs.readFileSync(proxiesFile.path, { encoding: "utf-8" }) : null;
+	const inputProxiesFile = proxiesFile ? fs.readFileSync(proxiesFile.path, { encoding: "utf8" }) : null;
 	const proxies = proxiesFile
 		? inputProxiesFile.split(/\r?\n/).filter((proxy) => constants.PROXY_REGEX.test(proxy))
 		: null;
@@ -287,13 +287,13 @@ startButton.onclick = async () => {
 
 	log(`✔️ Spam completed! Sent all messages to ${user}!`);
 	conclude();
-};
+});
 
-logsButton.onclick = () => $(logsModal).modal("show");
+logsButton.addEventListener("click", () => $(logsModal).modal("show"));
 
-logsClearButton.onclick = () => {
+logsClearButton.addEventListener("click", () => {
 	logsTextarea.value = "";
-};
+});
 
 checkUpdates().then(([isLatest, latestVersion]) => {
 	const updCheckFail = isLatest === null;

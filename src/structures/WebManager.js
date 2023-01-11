@@ -57,8 +57,8 @@ class WebManager {
 		if (appData) appData = JSON.parse(appData);
 		if (profileData) profileData = JSON.parse(profileData);
 
-		if (appData.accounts.length !== 0) {
-			if (appData.accounts[profileData.profile.id]) token = appData.accounts[profileData.profile.id].accessToken;
+		if (appData.accounts.length !== 0 && appData.accounts[profileData.profile.id]) {
+			token = appData.accounts[profileData.profile.id].accessToken;
 		}
 
 		store.set("token", token);
@@ -67,8 +67,7 @@ class WebManager {
 	}
 
 	async getLatestToken() {
-		const token = store.get("token");
-		return token;
+		return store.get("token");
 	}
 }
 
