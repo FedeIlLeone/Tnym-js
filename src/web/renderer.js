@@ -74,7 +74,6 @@ function driverSetPath(browser) {
 
 	if (osArch === "arm" || osArch === "ia32") osArch = "x32";
 	if (osArch === "arm64") osArch = "x64";
-	if (driverFileName === "chromedriver") osArch = "";
 
 	const driverPath = path.join(process.resourcesPath, "drivers", driverFileName, osArch);
 	process.env.path += `;${driverPath}`;
